@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AudiobookLibrary.Web</name>
+    </assembly>
+    <members>
+        <member name="T:AudiobookLibrary.Web.Controllers.AudiobooksController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AudiobookLibrary.Web.Controllers.AudiobooksController.#ctor(MediatR.IMediator)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+        </member>
+    </members>
+</doc>

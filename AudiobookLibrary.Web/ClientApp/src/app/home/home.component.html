@@ -1,0 +1,44 @@
+<div *ngIf="loading">
+  Loading
+</div>
+<div *ngIf="!loading">
+  <a [routerLink]="" (click)="refreshData()">Refresh</a>
+
+  <form [formGroup]="form" novalidate>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" [checked]="allSelected" />
+          </th>
+          <th></th>
+          <th>
+            <input type="text" placeholder="Author" formControlName="author" />
+          </th>
+          <th>
+            <input type="text" placeholder="Title" formControlName="title" />
+          </th>
+          <th>
+            <input type="text" placeholder="Album" formControlName="album" />
+          </th>
+          <th>Disc</th>
+          <th>Track</th>
+          <th></th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let audiobook of filteredAudiobooks">
+          <td></td>
+          <td>
+            <img [src]="audiobook.image" *ngIf="audiobook.image" />
+          </td>
+          <td><a [routerLink]="" (click)="filterBy('author', audiobook.author)">{{audiobook.author}}</a></td>
+          <td><a [routerLink]="" (click)="filterBy('title', audiobook.title)">{{audiobook.title}}</a></td>
+          <td><a [routerLink]="" (click)="filterBy('album', audiobook.album)">{{audiobook.album}}</a></td>
+          <td>{{audiobook.disc}}</td>
+          <td>{{audiobook.track}}</td>
+          <td>{{audiobook.filename}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
