@@ -21,7 +21,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
-            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.css"],
+            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -68,7 +68,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["styles.css"],
+            "styles": ["styles.scss"],
             "scripts": [],
             "assets": ["src/assets"]
           }
@@ -129,5 +129,10 @@
       }
     }
   },
-  "defaultProject": "AudiobookLibrary.Web"
+  "defaultProject": "AudiobookLibrary.Web",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

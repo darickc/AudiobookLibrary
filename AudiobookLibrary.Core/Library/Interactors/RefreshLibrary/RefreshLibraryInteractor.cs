@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +10,6 @@ using AudiobookLibrary.Core.Library.Notifications;
 using AudiobookLibrary.Core.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TagLib;
 
 namespace AudiobookLibrary.Core.Library.Interactors.RefreshLibrary
 {

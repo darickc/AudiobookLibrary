@@ -1,4 +1,4 @@
-<div *ngIf="loading">
+<div class="loading" *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!loading">
@@ -6,13 +6,50 @@
     <a [routerLink]="" (click)="refreshData()">Refresh</a>
   </div>
   <div *ngIf="!updateNotification.complete">
-    <mat-progress-bar mode="determinate" [value]="updateNotification.percent"></mat-progress-bar>
-    <div>
+    <mat-progress-bar [mode]="updateNotification.count ? 'determinate' : 'indeterminate'"
+      [value]="updateNotification.percent"></mat-progress-bar>
+    <div *ngIf="updateNotification.count" class="count">
       {{updateNotification.filesComplete}} out of {{updateNotification.count}}
     </div>
   </div>
 
-  <form [formGroup]="form" novalidate>
+  <div *ngFor="let bookSeries of series">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="header-image" [style.backgroundImage]="'url('+ bookSeries.image +')'"></div>
+        <mat-card-title>{{bookSeries.name}}</mat-card-title>
+        <mat-card-subtitle>{{bookSeries.author}}</mat-card-subtitle>
+      </mat-card-header>
+      <!-- <img mat-card-image [src]="bookSeries.image"> -->
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Books
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="book" *ngFor="let book of bookSeries.books">
+              <img [src]="book.image" *ngIf="book.image" />
+              <h4>{{book.title}}</h4>
+              <p><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
+                  {{book.track}}</span></p>
+            </div>
+            <!-- <mat-list>
+              <mat-list-item *ngFor="let book of bookSeries.books">
+                <img matListAvatar [src]="book.image" *ngIf="book.image" />
+                <h4 mat-line>{{book.title}}</h4>
+                <p matLine><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
+                    {{book.track}}</span></p>
+                  </mat-list-item>
+                </mat-list> -->
+            <!-- <i [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i class="material-icons">cloud_download</i></a> -->
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- <form [formGroup]="form" novalidate>
     <table class="table">
       <thead>
         <tr>
@@ -50,9 +87,9 @@
           <td><a [routerLink]="" (click)="filterBy('album', audiobook.album)">{{audiobook.album}}</a></td>
           <td>{{audiobook.disc}}</td>
           <td>{{audiobook.track}}</td>
-          <td>{{audiobook.filename}}</td>
+          <td><a [href]="'api/Audiobooks/download/' + encodeForUrl(audiobook.filename)">{{audiobook.filename}}</a></td>
         </tr>
       </tbody>
     </table>
-  </form>
+  </form> -->
 </div>

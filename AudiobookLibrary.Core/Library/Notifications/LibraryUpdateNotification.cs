@@ -13,7 +13,7 @@ namespace AudiobookLibrary.Core.Library.Notifications
         {
             Count = count;
             FilesComplete = filesComplete;
-            Percent = (filesComplete / count) * 100;
+            Percent = ((double)filesComplete / count) * 100;
         }
 
         public LibraryUpdateNotification(bool complete)

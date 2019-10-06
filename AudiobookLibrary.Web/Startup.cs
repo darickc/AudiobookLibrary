@@ -2,6 +2,7 @@ using System.IO;
 using AudiobookLibrary.Core.Confguration;
 using AudiobookLibrary.Web.BackgroundTasks;
 using AudiobookLibrary.Web.Hubs;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -48,6 +49,7 @@ namespace AudiobookLibrary.Web
 //            });
 
             services.AddSignalR();
+            
 
             //            services.AddSwaggerGen(c =>
             //            {
@@ -68,7 +70,10 @@ namespace AudiobookLibrary.Web
 
             IFileProvider physicalFileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
             ConfigurationFacade.Configure(services, Configuration, physicalFileProvider);
+            services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            var webAssembly = typeof(Startup).Assembly;
+            services.AddMediatR(webAssembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

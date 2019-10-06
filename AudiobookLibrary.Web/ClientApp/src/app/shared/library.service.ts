@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
-import { Book } from './book';
 import { UpdateNotification } from './update-notification';
 
 @Injectable({
@@ -37,7 +36,7 @@ export class LibraryService {
   }
 
   private registerOnServerEvents(): void {
-    this._hubConnection.on('RefreshUpdate', (data: UpdateNotification) => {
+    this._hubConnection.on('LibraryUpdate', (data: UpdateNotification) => {
       console.log(data);
       this.updateNotificationReceived.emit(data);
     });

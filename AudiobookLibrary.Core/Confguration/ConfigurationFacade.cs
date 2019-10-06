@@ -1,4 +1,5 @@
-﻿using AudiobookLibrary.Core.Persistance;
+﻿using AudiobookLibrary.Core.Library.Factory;
+using AudiobookLibrary.Core.Persistance;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace AudiobookLibrary.Core.Confguration
             AppSettings settings = new AppSettings();
             config.Bind(settings);
             services.AddSingleton(settings);
+            services.AddScoped<AudiobookFileFactory>();
 
             services.AddDbContext<AudioLibraryContext>(options => options.UseSqlite("Data Source=Library.db"));
             services.AddMediatR(applicationCoreAssemply);

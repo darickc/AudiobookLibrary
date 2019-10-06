@@ -1,18 +1,21 @@
 import { Component, Inject, OnInit, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { finalize, takeUntil, debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { LibraryService } from '../shared/library.service';
 import { Book } from '../shared/book';
 import { UpdateNotification } from '../shared/update-notification';
+import { Series } from '../shared/series';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   loading: boolean;
+  series: Series[];
   audiobooks: Book[];
   filteredAudiobooks: Book[];
   form: FormGroup;
@@ -28,8 +31,12 @@ export class HomeComponent implements OnInit {
     private _ngZone: NgZone
   ) {
     this.subscribeToEvents();
-    this.updateNotification = new UpdateNotification();
-    this.updateNotification.complete = true;
+    this.updateNotification = new UpdateNotification({
+      complete: true,
+      filesComplete: 0,
+      count: 0,
+      percent: 0
+    });
   }
 
   ngOnInit() {
@@ -50,7 +57,6 @@ export class HomeComponent implements OnInit {
     this.libraryService.connectionEstablished.subscribe(connected => {
       this.connected = connected;
       if (this.connected) {
-        console.log('Getting books');
         this.loadData();
       }
     });
@@ -65,8 +71,8 @@ export class HomeComponent implements OnInit {
   loadData() {
     this.loading = true;
     this.libraryService.getBooks().then(data => {
-      this.audiobooks = data;
-      this.filter();
+      this.series = data;
+      // this.filter();
       this.loading = false;
     });
     // this.loading = true;
@@ -88,6 +94,7 @@ export class HomeComponent implements OnInit {
 
   refreshData() {
     this.updateNotification.percent = 0;
+    this.updateNotification.count = 0;
     this.updateNotification.complete = false;
     this.libraryService.refreshLibrary();
     // this.loading = true;
@@ -127,5 +134,9 @@ export class HomeComponent implements OnInit {
 
   select(book) {
     // book.selected = true;
+  }
+
+  encodeForUrl(data: string) {
+    return encodeURIComponent(data);
   }
 }

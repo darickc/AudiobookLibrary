@@ -1,0 +1,45 @@
+:host {
+  margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  height: 100%;
+}
+
+.count {
+  text-align: center;
+}
+
+.header-image {
+  background-size: cover;
+}
+
+.mat-card {
+  margin-top: 10px;
+}
+
+
+.mat-card-avatar,
+.mat-list-base .mat-list-item .mat-list-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 3px;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+  padding: 0;
+}
+
+.mat-list-item {
+  margin-top: 15px;
+}
+
+.mat-card-content {
+  margin-top: 10px;
+}
