@@ -12,21 +12,14 @@ namespace AudiobookLibrary.Core.Confguration
     {
         public static AppSettings Configure(IServiceCollection services, IConfigurationRoot config, IFileProvider contentRoot)
         {
-            ConfigureMapper();
             return ConfigureDependencies(services, config, contentRoot);
         }
 
-        private static void ConfigureMapper()
-        {
-            Mapper.Initialize(x =>
-            {
-                x.AddProfiles(typeof(ConfigurationFacade).Assembly);
-            });
-        }
 
         private static AppSettings ConfigureDependencies(IServiceCollection services, IConfigurationRoot config, IFileProvider contentRoot)
         {
             var applicationCoreAssemply = typeof(AppSettings).Assembly;
+            services.AddAutoMapper(applicationCoreAssemply);
 
             AppSettings settings = new AppSettings();
             config.Bind(settings);

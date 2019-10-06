@@ -1,8 +1,16 @@
 <div *ngIf="loading">
-  Loading
+  <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!loading">
-  <a [routerLink]="" (click)="refreshData()">Refresh</a>
+  <div *ngIf="updateNotification.complete">
+    <a [routerLink]="" (click)="refreshData()">Refresh</a>
+  </div>
+  <div *ngIf="!updateNotification.complete">
+    <mat-progress-bar mode="determinate" [value]="updateNotification.percent"></mat-progress-bar>
+    <div>
+      {{updateNotification.filesComplete}} out of {{updateNotification.count}}
+    </div>
+  </div>
 
   <form [formGroup]="form" novalidate>
     <table class="table">
@@ -13,13 +21,19 @@
           </th>
           <th></th>
           <th>
-            <input type="text" placeholder="Author" formControlName="author" />
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Author" formControlName="author" />
+            </mat-form-field>
           </th>
           <th>
-            <input type="text" placeholder="Title" formControlName="title" />
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Title" formControlName="title" />
+            </mat-form-field>
           </th>
           <th>
-            <input type="text" placeholder="Album" formControlName="album" />
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Album" formControlName="album" />
+            </mat-form-field>
           </th>
           <th>Disc</th>
           <th>Track</th>
