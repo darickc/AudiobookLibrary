@@ -27,7 +27,8 @@ namespace AudiobookLibrary.Core.Confguration
             services.AddSingleton(settings);
             services.AddScoped<AudiobookFileFactory>();
 
-            services.AddDbContext<AudioLibraryContext>(options => options.UseSqlite("Data Source=Library.db"));
+            var dataDirectory = string.IsNullOrEmpty(settings.DataDirectory) ? "" : $"{settings.DataDirectory}/";
+            services.AddDbContext<AudioLibraryContext>(options => options.UseSqlite($"Data Source={dataDirectory}Library.db"));
             services.AddMediatR(applicationCoreAssemply);
 
             return settings;
