@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Confguration;
 using AudiobookLibrary.Core.Library.Domain;
@@ -8,6 +9,7 @@ using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
 using AudiobookLibrary.Core.Library.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AudiobookLibrary.Web.Controllers
 {
@@ -19,15 +21,19 @@ namespace AudiobookLibrary.Web.Controllers
     {
         private readonly IMediator _mediator;
         private readonly AppSettings _settings;
+        private readonly ILogger<AudiobooksController> _logger;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mediator"></param>
-        public AudiobooksController(IMediator mediator, AppSettings settings)
+        /// <param name="settings"></param>
+        /// <param name="logger"></param>
+        public AudiobooksController(IMediator mediator, AppSettings settings, ILogger<AudiobooksController> logger)
         {
             _mediator = mediator;
             _settings = settings;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -47,7 +53,8 @@ namespace AudiobookLibrary.Web.Controllers
         [HttpGet("download/{filename}")]
         public ActionResult Download(string filename)
         {
-            filename = _settings.Directory + filename;
+            filename = _settings.Directory + WebUtility.UrlDecode(filename);
+            _logger.LogInformation($"Filename: {filename}");
             var file = new FileInfo(filename);
             if (!file.Exists)
             {

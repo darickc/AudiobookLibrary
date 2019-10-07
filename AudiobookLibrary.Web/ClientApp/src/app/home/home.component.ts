@@ -65,6 +65,9 @@ export class HomeComponent implements OnInit {
     this.libraryService.updateNotificationReceived.subscribe((update: UpdateNotification) => {
       this._ngZone.run(() => {
         this.updateNotification = update;
+        if (update.complete) {
+          this.loadData();
+        }
       });
     });
   }
@@ -102,13 +105,6 @@ export class HomeComponent implements OnInit {
         return bookSeries;
       }
     });
-    // const filterData = this.form.value;
-    // const that = this;
-    // this.filteredAudiobooks = _.filter(this.audiobooks, function(book) {
-    //   if (that.checkData(book.author, filterData.author) && that.checkData(book.title, filterData.title) && that.checkData(book.album, filterData.album)) {
-    //     return book;
-    //   }
-    // });
   }
 
   checkData(arg1, arg2) {
