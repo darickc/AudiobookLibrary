@@ -1,7 +1,7 @@
 <div class="loading" *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="!loading">
+<div class="books" *ngIf="!loading">
   <div *ngIf="updateNotification.complete">
     <a [routerLink]="" (click)="refreshData()">Refresh</a>
   </div>
@@ -13,40 +13,93 @@
     </div>
   </div>
 
-  <div *ngFor="let bookSeries of series">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="material-icons">search</i>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="form" novalidate>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Author" formControlName="author" />
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Series" formControlName="album" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput type="text" placeholder="Title" formControlName="title" />
+        </mat-form-field>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+  <div *ngFor="let bookSeries of filteredSeries">
     <mat-card>
-      <mat-card-header>
-        <div mat-card-avatar class="header-image" [style.backgroundImage]="'url('+ bookSeries.image +')'"></div>
+      <mat-card-header (click)="bookSeries.showBooks=!bookSeries.showBooks">
+        <div mat-card-avatar class="header-image" [style.backgroundImage]="'url('+ bookSeries.filteredBooks[0].image
+          +')'" [matBadge]="bookSeries.filteredBooks.length" matBadgePosition="after" matBadgeColor="accent"></div>
         <mat-card-title>{{bookSeries.name}}</mat-card-title>
         <mat-card-subtitle>{{bookSeries.author}}</mat-card-subtitle>
+
+        <i class="material-icons" *ngIf="!bookSeries.showBooks">
+          keyboard_arrow_up
+        </i>
+        <i class="material-icons" *ngIf="bookSeries.showBooks">
+          keyboard_arrow_down
+        </i>
+
       </mat-card-header>
       <!-- <img mat-card-image [src]="bookSeries.image"> -->
-      <mat-card-content>
+      <div class="series">
+        <!-- <div>
+          <button mat-raised-button color="primary"
+            [matBadge]="bookSeries.filteredBooks.length" matBadgePosition="after" matBadgeColor="accent"
+            (click)="bookSeries.showBooks=!bookSeries.showBooks">
+            <span *ngIf="!bookSeries.showBooks">Show</span>
+            <span *ngIf="bookSeries.showBooks">Hide</span>
+          </button>
+        </div> -->
+        <div *ngIf="bookSeries.showBooks">
+          <div class="book" *ngFor="let book of bookSeries.filteredBooks">
+            <img [src]="book.image" *ngIf="book.image" />
+            <div class='title'>{{book.title}}</div>
+            <div class='text'><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
+                {{book.track}}</span></div>
+            <a class="downloadLink" [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i
+                class="material-icons">cloud_download</i></a>
+            <div class="divider"></div>
+          </div>
+        </div>
+      </div>
+      <!-- <mat-card-content>
         <mat-accordion>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Books
               </mat-panel-title>
+              <mat-panel-description>
+                {{bookSeries.filteredBooks.length}}
+              </mat-panel-description>
             </mat-expansion-panel-header>
-            <div class="book" *ngFor="let book of bookSeries.books">
+            <div class="book" *ngFor="let book of bookSeries.filteredBooks">
               <img [src]="book.image" *ngIf="book.image" />
-              <h4>{{book.title}}</h4>
-              <p><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
-                  {{book.track}}</span></p>
+              <div class='title'>{{book.title}}</div>
+              <div class='text'><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
+                  {{book.track}}</span></div>
+              <a class="downloadLink" [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i
+                  class="material-icons">cloud_download</i></a>
+              <div class="divider"></div>
             </div>
-            <!-- <mat-list>
-              <mat-list-item *ngFor="let book of bookSeries.books">
-                <img matListAvatar [src]="book.image" *ngIf="book.image" />
-                <h4 mat-line>{{book.title}}</h4>
-                <p matLine><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
-                    {{book.track}}</span></p>
-                  </mat-list-item>
-                </mat-list> -->
-            <!-- <i [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i class="material-icons">cloud_download</i></a> -->
           </mat-expansion-panel>
         </mat-accordion>
-      </mat-card-content>
+      </mat-card-content> -->
     </mat-card>
   </div>
   <!-- <form [formGroup]="form" novalidate>

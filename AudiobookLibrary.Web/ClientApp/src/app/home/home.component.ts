@@ -16,6 +16,7 @@ import { Series } from '../shared/series';
 export class HomeComponent implements OnInit {
   loading: boolean;
   series: Series[];
+  filteredSeries: Series[];
   audiobooks: Book[];
   filteredAudiobooks: Book[];
   form: FormGroup;
@@ -72,24 +73,9 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     this.libraryService.getBooks().then(data => {
       this.series = data;
-      // this.filter();
+      this.filter();
       this.loading = false;
     });
-    // this.loading = true;
-    // this.http
-    //   .get<Book[]>(this.baseUrl + 'api/Audiobooks')
-    //   .pipe(
-    //     finalize(() => {
-    //       this.loading = false;
-    //     })
-    //   )
-    //   .subscribe(
-    //     result => {
-    //       this.audiobooks = result;
-    //       this.filter();
-    //     },
-    //     error => console.error(error)
-    //   );
   }
 
   refreshData() {
@@ -97,23 +83,32 @@ export class HomeComponent implements OnInit {
     this.updateNotification.count = 0;
     this.updateNotification.complete = false;
     this.libraryService.refreshLibrary();
-    // this.loading = true;
-    // this.http.post(this.baseUrl + 'api/Audiobooks/refresh', null).subscribe(
-    //   result => {
-    //     this.loading = false;
-    //   },
-    //   error => console.error(error)
-    // );
   }
 
   filter() {
     const filterData = this.form.value;
     const that = this;
-    this.filteredAudiobooks = _.filter(this.audiobooks, function(book) {
-      if (that.checkData(book.author, filterData.author) && that.checkData(book.title, filterData.title) && that.checkData(book.album, filterData.album)) {
-        return book;
+    this.filteredSeries = _.filter(this.series, function(bookSeries) {
+      if (filterData.title) {
+        bookSeries.filteredBooks = _.filter(bookSeries.books, function(book) {
+          if (that.checkData(book.title, filterData.title)) {
+            return book;
+          }
+        });
+      } else {
+        bookSeries.filteredBooks = bookSeries.books;
+      }
+      if (that.checkData(bookSeries.author, filterData.author) && that.checkData(bookSeries.name, filterData.album) && bookSeries.filteredBooks.length) {
+        return bookSeries;
       }
     });
+    // const filterData = this.form.value;
+    // const that = this;
+    // this.filteredAudiobooks = _.filter(this.audiobooks, function(book) {
+    //   if (that.checkData(book.author, filterData.author) && that.checkData(book.title, filterData.title) && that.checkData(book.album, filterData.album)) {
+    //     return book;
+    //   }
+    // });
   }
 
   checkData(arg1, arg2) {

@@ -28,7 +28,7 @@ namespace AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles
                 {
                     Name = f.Key.Album,
                     Author = f.Key.Author,
-                    Image = f.FirstOrDefault()?.Image,
+//                    Image = f.FirstOrDefault()?.Image,
                     Books = f.OrderBy(b=>b.Disc).ThenBy(b=>b.Track).Select(b=>new Book
                     {
                         Image = b.Image,

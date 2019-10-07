@@ -1,4 +1,4 @@
-:host {
+.books {
   margin-top: 20px;
 }
 
@@ -17,6 +17,56 @@
 
 .header-image {
   background-size: cover;
+}
+
+
+
+.series {
+  margin-top: 10px;
+}
+
+.book {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "img img"
+    "link title"
+    "link text"
+    "divider divider";
+
+  img {
+    grid-area: img;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 5px;
+  }
+
+  .title {
+    grid-area: title;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .text {
+    grid-area: text;
+  }
+
+  a {
+    margin-right: 7px;
+    grid-area: link;
+    align-self: center;
+  }
+
+  .divider {
+    grid-area: divider;
+    height: 2px;
+    background: #eee;
+    margin: 10px 3px;
+  }
+}
+
+.mat-form-field {
+  margin-right: 3px;
 }
 
 .mat-card {

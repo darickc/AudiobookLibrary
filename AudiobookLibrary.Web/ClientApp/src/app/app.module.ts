@@ -15,6 +15,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -30,6 +33,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatExpansionModule,
     MatListModule,
     MatIconModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatChipsModule,
     RouterModule.forRoot([{ path: '', component: HomeComponent, pathMatch: 'full' }]),
     BrowserAnimationsModule
   ],

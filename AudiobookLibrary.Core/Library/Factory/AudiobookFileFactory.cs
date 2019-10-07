@@ -4,6 +4,11 @@ using System.Linq;
 using AudiobookLibrary.Core.Confguration;
 using AudiobookLibrary.Core.Library.Domain;
 using TagLib;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace AudiobookLibrary.Core.Library.Factory
 {
@@ -49,14 +54,38 @@ namespace AudiobookLibrary.Core.Library.Factory
 
         private string GetImage(IPicture[] pictures)
         {
+            int maxSize = 300;
             var picture = pictures?.FirstOrDefault();
             if (picture == null)
             {
                 return null;
             }
 
-            var data = Convert.ToBase64String(picture.Data.Data);
-            return $"data:{picture.MimeType};base64,{data}";
+            // resize image
+            using var image = Image.Load(picture.Data.Data);
+            if (image.Height > maxSize || image.Width > maxSize)
+            {
+                int width = image.Width;
+                int height = image.Height;
+                if (width < height)
+                {
+                    height = (maxSize * height) / width;
+                    width = maxSize;
+                }
+                else
+                {
+                    width = (maxSize * width) / height;
+                    height = maxSize;
+                }
+
+                image.Mutate(x => x
+                    .Resize(width, height));
+            }
+            var temp = image.ToBase64String(PngFormat.Instance);
+            return temp;
+
+//            var data = Convert.ToBase64String(picture.Data.Data);
+//            return $"data:{picture.MimeType};base64,{data}";
         }
     }
 }

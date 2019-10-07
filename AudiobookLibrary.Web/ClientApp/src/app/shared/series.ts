@@ -5,4 +5,6 @@ export class Series {
   name: string;
   image: string;
   books: Book[];
+  filteredBooks: Book[];
+  showBooks: boolean;
 }
