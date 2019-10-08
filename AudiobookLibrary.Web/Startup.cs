@@ -55,11 +55,11 @@ namespace AudiobookLibrary.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings settings)
         {
-            if (!string.IsNullOrEmpty(settings.Path))
+            if (!string.IsNullOrEmpty(settings.BaseUrl))
             {
                 app.Use((context, next) =>
                 {
-                    context.Request.PathBase = new PathString(settings.Path);
+                    context.Request.PathBase = new PathString(settings.BaseUrl);
                     return next();
                 });
             }
