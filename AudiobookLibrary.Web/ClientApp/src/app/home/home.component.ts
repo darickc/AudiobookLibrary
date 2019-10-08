@@ -121,13 +121,11 @@ export class HomeComponent implements OnInit {
     this.form.controls[field].setValue(value);
   }
 
-  selectAll() {}
-
-  select(book) {
-    // book.selected = true;
-  }
-
   encodeForUrl(data: string) {
     return encodeURIComponent(data);
+  }
+
+  clearSearch(formName: string) {
+    this.form.controls[formName].setValue('');
   }
 }

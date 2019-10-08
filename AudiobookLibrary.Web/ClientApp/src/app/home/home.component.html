@@ -23,15 +23,21 @@
       <form [formGroup]="form" novalidate>
         <mat-form-field>
           <input matInput type="text" placeholder="Author" formControlName="author" />
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch('author')">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field>
           <input matInput type="text" placeholder="Series" formControlName="album" />
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch('album')">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <input matInput type="text" placeholder="Title" formControlName="title" />
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch('title')">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
       </form>
     </mat-expansion-panel>

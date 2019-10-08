@@ -1,0 +1,33 @@
+﻿@page
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AudiobookLibrary.Web</title>
+    <base href="@($"{Request.PathBase}/")">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link asp-href-include="~/*.css" rel="stylesheet" />
+</head>
+<body>
+<app-root></app-root>
+<environment names="Development">
+    <script asp-src-include="~/runtime.js" defer></script>
+    <script asp-src-include="~/polyfills-es5.js" nomodule defer></script>
+    <script asp-src-include="~/polyfills.js" defer></script>
+    <script asp-src-include="~/vendor.js" defer></script>
+    <script asp-src-include="~/main.js" defer></script>
+</environment>
+<environment names="Staging,Production">
+    <script asp-src-include="~/runtime*.js" defer></script>
+    <script asp-src-include="~/polyfills-es5*.js" nomodule defer></script>
+    <script asp-src-include="~/polyfills.*.js" defer></script>
+    <script asp-src-include="~/main*.js" defer></script>
+</environment>
+</body>
+</html>
