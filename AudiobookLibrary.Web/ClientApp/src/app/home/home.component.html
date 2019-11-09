@@ -6,11 +6,8 @@
     <a [routerLink]="" (click)="refreshData()">Refresh</a>
   </div>
   <div *ngIf="!updateNotification.complete">
-    <mat-progress-bar [mode]="updateNotification.count ? 'determinate' : 'indeterminate'"
-      [value]="updateNotification.percent"></mat-progress-bar>
-    <div *ngIf="updateNotification.count" class="count">
-      {{updateNotification.filesComplete}} out of {{updateNotification.count}}
-    </div>
+    <mat-progress-bar [mode]="updateNotification.count ? 'determinate' : 'indeterminate'" [value]="updateNotification.percent"></mat-progress-bar>
+    <div *ngIf="updateNotification.count" class="count">{{ updateNotification.filesComplete }} out of {{ updateNotification.count }}</div>
   </div>
 
   <mat-accordion>
@@ -43,15 +40,19 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-
-
   <div *ngFor="let bookSeries of filteredSeries">
     <mat-card>
-      <mat-card-header (click)="bookSeries.showBooks=!bookSeries.showBooks">
-        <div mat-card-avatar class="header-image" [style.backgroundImage]="'url('+ bookSeries.filteredBooks[0].image
-          +')'" [matBadge]="bookSeries.filteredBooks.length" matBadgePosition="after" matBadgeColor="accent"></div>
-        <mat-card-title>{{bookSeries.name}}</mat-card-title>
-        <mat-card-subtitle>{{bookSeries.author}}</mat-card-subtitle>
+      <mat-card-header (click)="bookSeries.showBooks = !bookSeries.showBooks">
+        <div
+          mat-card-avatar
+          class="header-image"
+          [style.backgroundImage]="'url(' + bookSeries.image + ')'"
+          [matBadge]="bookSeries.filteredBooks.length"
+          matBadgePosition="after"
+          matBadgeColor="accent"
+        ></div>
+        <mat-card-title>{{ bookSeries.name }}</mat-card-title>
+        <mat-card-subtitle>{{ bookSeries.author }}</mat-card-subtitle>
 
         <i class="material-icons" *ngIf="!bookSeries.showBooks">
           keyboard_arrow_up
@@ -59,96 +60,32 @@
         <i class="material-icons" *ngIf="bookSeries.showBooks">
           keyboard_arrow_down
         </i>
-
       </mat-card-header>
-      <!-- <img mat-card-image [src]="bookSeries.image"> -->
-      <div class="series">
-        <!-- <div>
-          <button mat-raised-button color="primary"
-            [matBadge]="bookSeries.filteredBooks.length" matBadgePosition="after" matBadgeColor="accent"
-            (click)="bookSeries.showBooks=!bookSeries.showBooks">
-            <span *ngIf="!bookSeries.showBooks">Show</span>
-            <span *ngIf="bookSeries.showBooks">Hide</span>
-          </button>
-        </div> -->
-        <div *ngIf="bookSeries.showBooks">
-          <div class="book" *ngFor="let book of bookSeries.filteredBooks">
-            <img [src]="book.image" *ngIf="book.image" />
-            <div class='title'>{{book.title}}</div>
-            <div class='text'><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
-                {{book.track}}</span></div>
-            <a class="downloadLink" [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i
-                class="material-icons">cloud_download</i></a>
-            <div class="divider"></div>
+      <div class="series" *ngIf="bookSeries.showBooks">
+        <div class="book" *ngFor="let book of bookSeries.filteredBooks">
+          <img [src]="'api/Audiobooks/cover/' + book.parts[0].id" *ngIf="book.image" />
+          <div *ngIf="book.parts.length == 1">
+            <a class="link title" [href]="'api/Audiobooks/download/' + book.parts[0].id">
+              <i class="material-icons">cloud_download</i>
+              <span>
+                <span *ngIf="book.disc > 0">{{ book.disc }} - </span>
+                {{ book.title }}
+              </span>
+            </a>
+          </div>
+          <div *ngIf="book.parts.length > 1">
+            <div class="title">
+              <span *ngIf="book.disc > 0">{{ book.disc }} - </span>
+              {{ book.title }}
+            </div>
+            <div class="text">
+              <a class="link" *ngFor="let part of book.parts" [href]="'api/Audiobooks/download/' + part.id"
+                ><i class="material-icons">cloud_download</i> <span>Part {{ part.track }}</span></a
+              >
+            </div>
           </div>
         </div>
       </div>
-      <!-- <mat-card-content>
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Books
-              </mat-panel-title>
-              <mat-panel-description>
-                {{bookSeries.filteredBooks.length}}
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="book" *ngFor="let book of bookSeries.filteredBooks">
-              <img [src]="book.image" *ngIf="book.image" />
-              <div class='title'>{{book.title}}</div>
-              <div class='text'><span *ngIf="book.disc> 0">Book {{book.disc}}</span><span *ngIf="book.track> 0">, Part
-                  {{book.track}}</span></div>
-              <a class="downloadLink" [href]="'api/Audiobooks/download/' + encodeForUrl(book.filename)"><i
-                  class="material-icons">cloud_download</i></a>
-              <div class="divider"></div>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </mat-card-content> -->
     </mat-card>
   </div>
-  <!-- <form [formGroup]="form" novalidate>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" [checked]="allSelected" />
-          </th>
-          <th></th>
-          <th>
-            <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Author" formControlName="author" />
-            </mat-form-field>
-          </th>
-          <th>
-            <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Title" formControlName="title" />
-            </mat-form-field>
-          </th>
-          <th>
-            <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Album" formControlName="album" />
-            </mat-form-field>
-          </th>
-          <th>Disc</th>
-          <th>Track</th>
-          <th></th></tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let audiobook of filteredAudiobooks">
-          <td></td>
-          <td>
-            <img [src]="audiobook.image" *ngIf="audiobook.image" />
-          </td>
-          <td><a [routerLink]="" (click)="filterBy('author', audiobook.author)">{{audiobook.author}}</a></td>
-          <td><a [routerLink]="" (click)="filterBy('title', audiobook.title)">{{audiobook.title}}</a></td>
-          <td><a [routerLink]="" (click)="filterBy('album', audiobook.album)">{{audiobook.album}}</a></td>
-          <td>{{audiobook.disc}}</td>
-          <td>{{audiobook.track}}</td>
-          <td><a [href]="'api/Audiobooks/download/' + encodeForUrl(audiobook.filename)">{{audiobook.filename}}</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </form> -->
 </div>

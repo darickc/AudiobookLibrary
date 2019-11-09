@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Confguration;
-using AudiobookLibrary.Core.Library.Domain;
+using AudiobookLibrary.Core.Library.Interactors.GetAudiobookById;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles;
 using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
 using AudiobookLibrary.Core.Library.Models;
@@ -50,9 +51,29 @@ namespace AudiobookLibrary.Web.Controllers
             return Ok();
         }
 
-        [HttpGet("download/{filename}")]
-        public ActionResult Download(string filename)
+        [HttpGet("cover/{id:int}")]
+        public async Task<ActionResult> Cover(int id)
         {
+            var book = await _mediator.Send(new GetAudiobookByIdRequest(id));
+            if (string.IsNullOrEmpty(book?.Image))
+            {
+                return NotFound();
+            }
+
+            var image = book.Image.Replace("data:image/png;base64,", "");
+            var data = Convert.FromBase64String(image);
+            return File(data, "image/png");
+        }
+
+        [HttpGet("download/{id:int}")]
+        public async Task<ActionResult> Download(int id)
+        {
+            var book = await _mediator.Send(new GetAudiobookByIdRequest(id));
+            var filename = book?.Filename;
+            if (string.IsNullOrEmpty(filename))
+            {
+                return NotFound();
+            }
             filename = _settings.Directory + WebUtility.UrlDecode(filename);
             _logger.LogInformation($"Filename: {filename}");
             var file = new FileInfo(filename);

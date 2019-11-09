@@ -3,10 +3,8 @@
 }
 
 .loading {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
+  display: grid;
+  justify-items: center;
   align-items: center;
   height: 100%;
 }
@@ -23,46 +21,95 @@
 
 .series {
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-items: center;
+  grid-row-gap: 25px;
+}
+
+@media only screen and (min-width: 768px) {
+  .series {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .series {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .book {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas:
-    "img img"
-    "link title"
-    "link text"
-    "divider divider";
+  // display: grid;
+  // grid-template-columns: auto 1fr;
+  // grid-template-areas: "img img"
+  //   "link title"
+  //   "link text";
 
   img {
-    grid-area: img;
+    // grid-area: img;
     width: 100%;
     max-width: 300px;
     margin-bottom: 5px;
   }
 
   .title {
-    grid-area: title;
+    // grid-area: title;
     font-weight: bold;
     font-size: 1.2em;
   }
 
+  .link {
+    display: flex;
+    align-items: center;
+    grid-template-columns: auto auto;
+    margin-right: 10px;
+
+    >.material-icons {
+      flex: 0 auto;
+      align-self: center;
+      margin-right: 7px;
+    }
+
+    >span {
+      flex: 1 auto;
+    }
+  }
+
   .text {
-    grid-area: text;
+    // grid-area: text;
+    display: flex;
+    flex-wrap: wrap;
+
+    //   >a {
+    //     flex: 0 auto;
+    //     display: flex;
+    //     margin-right: 7px;
+
+    //     >.material-icons {
+    //       flex: 0 auto;
+    //       align-self: center;
+    //       margin-right: 7px;
+    //     }
+
+    //     >span {
+    //       flex: 1 auto;
+    //     }
+    //   }
   }
 
-  a {
-    margin-right: 7px;
-    grid-area: link;
-    align-self: center;
-  }
+  // >a {
+  //   margin-right: 7px;
+  //   grid-area: link;
+  //   align-self: center;
+  // }
 
-  .divider {
-    grid-area: divider;
-    height: 2px;
-    background: #eee;
-    margin: 10px 3px;
-  }
+  // .divider {
+  //   grid-area: divider;
+  //   height: 2px;
+  //   background: #eee;
+  //   margin: 10px 3px;
+  // }
 }
 
 .mat-form-field {

@@ -28,14 +28,19 @@ namespace AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles
                 {
                     Name = f.Key.Album,
                     Author = f.Key.Author,
-//                    Image = f.FirstOrDefault()?.Image,
-                    Books = f.OrderBy(b=>b.Disc).ThenBy(b=>b.Track).Select(b=>new Book
+                    Image = f.First().Image,
+                    Books = f.GroupBy(b=>b.Disc).OrderBy(b=>b.Key).Select(b=>new Book
                     {
-                        Image = b.Image,
-                        Disc = b.Disc,
-                        Track = b.Track,
-                        Filename = b.Filename,
-                        Title = b.Title
+                        Image =!string.IsNullOrEmpty(b.First().Image),
+                        Title = b.First().Title,
+                        Disc = b.Key,
+                        Parts = b.OrderBy(p=>p.Track).Select(p=>new Part
+                        {
+                            Id = p.AudiobookFileId,
+                            Track = p.Track,
+                            Filename = p.Filename,
+                            
+                        }).ToList()
                     }).ToList()
                 }).ToList();
 

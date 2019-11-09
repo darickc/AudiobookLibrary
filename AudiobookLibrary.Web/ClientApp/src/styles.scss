@@ -1,7 +1,6 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 /* You can add global styles to this file, and also import other style files */
-.table {}
 
 .table img {
   max-width: 100px;
@@ -21,6 +20,7 @@ body {
 .mat-card-header-text {
   width: 100% !important;
 }
-.mat-card-header{
+
+.mat-card-header {
   cursor: pointer;
 }

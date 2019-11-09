@@ -83,9 +83,6 @@ namespace AudiobookLibrary.Core.Library.Factory
             }
             var temp = image.ToBase64String(PngFormat.Instance);
             return temp;
-
-//            var data = Convert.ToBase64String(picture.Data.Data);
-//            return $"data:{picture.MimeType};base64,{data}";
         }
     }
 }
