@@ -14,35 +14,55 @@
             @if (UpdateNotification.Complete)
             {
                 <div>
-                    <a href="" @click="RefreshLibrary()">Refresh</a>
+                    <MatButton @onclick="RefreshLibrary">
+                        <MatIcon>refresh</MatIcon>Refresh
+                    </MatButton>
                 </div>
             }
             else
             {
                 <div>
-                    <MatProgressBar Progress="UpdateNotification.Percent" Indeterminate="UpdateNotification.Count == 0"></MatProgressBar>
-                    <div class="count">@UpdateNotification.FilesComplete out of @UpdateNotification.Count</div>
+                    @if (UpdateNotification.Count == 0)
+                    {
+                        <MatProgressBar Indeterminate="true"></MatProgressBar>
+                    }
+                    else
+                    {
+                        <MatProgressBar Progress="UpdateNotification.Percent"></MatProgressBar>
+                        <div class="count">@UpdateNotification.FilesComplete out of @UpdateNotification.Count</div>
+                    }
                 </div>
             }
-            <MatAccordion>
-                <MatExpansionPanel>
-                    <MatExpansionPanelSummary>
-                        <MatExpansionPanelHeader> <i class="material-icons">search</i></MatExpansionPanelHeader>
-                    </MatExpansionPanelSummary>
-                    <MatExpansionPanelDetails>
-                        <form>
-                            <MatTextField @bind-Value="Author" Label="Author"></MatTextField>
-                        </form>
-                    </MatExpansionPanelDetails>
-                </MatExpansionPanel>
-            </MatAccordion>
+            @UpdateNotification.FilesComplete
+            @Hub.IsConnected
+            <div class="search">
+                <MatAccordion>
+                    <MatExpansionPanel>
+                        <MatExpansionPanelSummary>
+                            <MatExpansionPanelHeader> <i class="material-icons">search</i></MatExpansionPanelHeader>
+                        </MatExpansionPanelSummary>
+                        <MatExpansionPanelDetails>
+                            <EditForm Model="@this" OnValidSubmit="Filter">
+                                <MatTextField @bind-Value="@Author" Label="Author" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Author"))"></MatTextField>
+                                <MatTextField @bind-Value="@SeriesName" Label="Series" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("SeriesName"))"></MatTextField>
+                                <MatTextField @bind-Value="@Title" Label="Title" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Title"))"></MatTextField>
+                                <MatButton Raised="true">Search</MatButton>
+                            </EditForm>
+                        </MatExpansionPanelDetails>
+                    </MatExpansionPanel>
+                </MatAccordion>
+            </div>
+            <div class="paging">
+                <MatPaginator Length="TempSeries.Count()" PageSize="@PageSize" Page="@OnPage"></MatPaginator>
+            </div>
             <div class="seriesList">
-
-
-                @foreach (var bookSeries in Series)
+                @foreach (var bookSeries in FilteredSeries)
                 {
                     <BookSeries Series="bookSeries"></BookSeries>
                 }
+            </div>
+            <div class="paging">
+                <MatPaginator Length="TempSeries.Count()" PageSize="@PageSize" Page="@OnPage"></MatPaginator>
             </div>
         </div>
     }

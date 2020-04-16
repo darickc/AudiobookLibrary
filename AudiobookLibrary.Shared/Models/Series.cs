@@ -9,6 +9,7 @@ namespace AudiobookLibrary.Shared.Models
         public bool Image { get; set; }
         public int? ImageId { get; set; }
         public List<Book> Books { get; set; }
+        public List<Book> FilteredBooks { get; set; }
         public bool ShowBooks { get; set; }
     }
 }

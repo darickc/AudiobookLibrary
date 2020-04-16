@@ -10,6 +10,7 @@ namespace AudiobookLibrary.Client.Services
     public class HubService
     {
         private readonly HubConnection _hub;
+        public bool IsConnected => _hub.State == HubConnectionState.Connected;
         public Action<LibraryUpdate> LibraryUpdated { get; set; }
 
         public HubService(NavigationManager navigationManager)
@@ -18,7 +19,7 @@ namespace AudiobookLibrary.Client.Services
                 .WithUrl(navigationManager.ToAbsoluteUri("/library"))
                 .Build();
 
-            _hub.On<LibraryUpdate>("LibraryUpdate", e => LibraryUpdated?.Invoke(e));
+            _hub.On<LibraryUpdate>("LibraryUpdated", e =>LibraryUpdated?.Invoke(e));
         }
 
         public Task Connect()

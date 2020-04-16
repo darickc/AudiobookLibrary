@@ -18,7 +18,7 @@ namespace AudiobookLibrary.Web.NotificationHandlers
 
         public async Task Handle(LibraryUpdateNotification notification, CancellationToken cancellationToken)
         {
-            await _hub.Clients.All.LibraryUpdate(notification);
+            await _hub.Clients.All.LibraryUpdated(notification);
         }
     }
 }

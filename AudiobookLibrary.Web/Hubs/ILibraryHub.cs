@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using AudiobookLibrary.Core.Library.Notifications;
+using AudiobookLibrary.Shared.Models;
 
 namespace AudiobookLibrary.Web.Hubs
 {
     public interface ILibraryHub
     {
-        Task LibraryUpdate(LibraryUpdateNotification notification);
+        Task LibraryUpdated(LibraryUpdate notification);
     }
 }

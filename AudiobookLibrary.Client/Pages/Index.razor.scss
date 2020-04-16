@@ -22,17 +22,27 @@
     
 }
 
+.paging {
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+    max-width: 650px;
+    padding:10px;
+    margin: 20px auto 0 auto;
+    background:#fff;
+}
+
+.mdc-text-field, .mdc-button {
+    margin: 3px;
+}
+.search{
+    margin: 0 auto;
+    max-width:950px;
+}
+
 @media (min-width: 768px) {
     .seriesList {
         grid-template-columns: repeat(2,1fr);
     }
 }
-
-/*@media (min-width: 992px) {
-    .series {
-        grid-template-columns: repeat(2,1fr);
-    }
-}*/
 
 @media (min-width: 1200px) {
     .seriesList {

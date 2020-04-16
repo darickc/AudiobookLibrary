@@ -2,6 +2,7 @@
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
     background: #fff;
     padding: 20px;
+    border-radius: 0px;
 
     .header {
         cursor: pointer;
@@ -16,6 +17,7 @@
                 background-size: cover;
                 width: 100px;
                 height: 100px;
+                border-radius: 3px;
             }
 
             div:last-child {
@@ -59,6 +61,7 @@
         width: 100%;
         max-width: 300px;
         margin-bottom: 5px;
+        border-radius: 3px;
     }
 
     .title {

@@ -2,16 +2,16 @@
 {
     public class LibraryUpdate
     {
-        public int Count { get; }
-        public int FilesComplete { get; }
-        public double Percent { get; }
-        public bool Complete { get; }
+        public int Count { get; set; }
+        public int FilesComplete { get; set; }
+        public double Percent { get; set; }
+        public bool Complete { get; set; }
 
-        public LibraryUpdate(int count, int filesComplete, double percent)
+        public LibraryUpdate(int count, int filesComplete)
         {
             Count = count;
             FilesComplete = filesComplete;
-            Percent = percent;
+            Percent = (double) filesComplete / count;
         }
 
         public LibraryUpdate(bool complete)

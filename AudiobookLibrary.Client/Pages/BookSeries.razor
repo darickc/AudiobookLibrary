@@ -11,7 +11,7 @@
                 <div></div>
             }
             <div>
-                @Series.Books.Count
+                @Series.FilteredBooks.Count
             </div>
         </div>
         <div>
@@ -27,7 +27,7 @@
     <div class="series">
         @if (ShowBooks)
         {
-            foreach (var book in Series.Books)
+            foreach (var book in Series.FilteredBooks)
             {
                 <div class="book">
                     @if (book.ImageId.HasValue)
