@@ -13,7 +13,7 @@ namespace AudiobookLibrary.Test.Client
         public SignalrClient()
         {
             _hub = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/library")
+                .WithUrl("https://localhost:44315/library")
                 .Build();
             
             _hub.On<LibraryUpdate>("LibraryUpdated", e =>
