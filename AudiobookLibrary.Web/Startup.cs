@@ -15,22 +15,10 @@ namespace AudiobookLibrary.Web
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
-        public IConfigurationRoot Configuration { get; }
-        public Startup(IWebHostEnvironment env)
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
         {
-            _env = env;
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         /// <summary>
@@ -73,12 +61,14 @@ namespace AudiobookLibrary.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints => {
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
                 endpoints.MapHub<LibraryHub>("/library");
                 endpoints.MapRazorPages();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

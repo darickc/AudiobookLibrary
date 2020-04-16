@@ -11,13 +11,7 @@ namespace AudiobookLibrary.Core.Confguration
 {
     public class ConfigurationFacade
     {
-        public static AppSettings Configure(IServiceCollection services, IConfigurationRoot config, IFileProvider contentRoot)
-        {
-            return ConfigureDependencies(services, config, contentRoot);
-        }
-
-
-        private static AppSettings ConfigureDependencies(IServiceCollection services, IConfigurationRoot config, IFileProvider contentRoot)
+        public static AppSettings Configure(IServiceCollection services, IConfiguration config, IFileProvider contentRoot)
         {
             var applicationCoreAssemply = typeof(AppSettings).Assembly;
             services.AddAutoMapper(applicationCoreAssemply);

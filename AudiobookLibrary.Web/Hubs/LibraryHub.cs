@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AudiobookLibrary.Core.Library.Domain;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles;
 using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
-using AudiobookLibrary.Core.Library.Models;
+using AudiobookLibrary.Shared.Models;
 using AudiobookLibrary.Web.BackgroundTasks;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;

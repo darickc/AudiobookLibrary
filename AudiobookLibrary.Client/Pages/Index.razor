@@ -1,0 +1,50 @@
+﻿@page "/"
+<div class="container">
+
+
+    @if (Loading)
+    {
+        <div class="loading">
+            Loading books...
+        </div>
+    }
+    else
+    {
+        <div class="books">
+            @if (UpdateNotification.Complete)
+            {
+                <div>
+                    <a href="" @click="RefreshLibrary()">Refresh</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <MatProgressBar Progress="UpdateNotification.Percent" Indeterminate="UpdateNotification.Count == 0"></MatProgressBar>
+                    <div class="count">@UpdateNotification.FilesComplete out of @UpdateNotification.Count</div>
+                </div>
+            }
+            <MatAccordion>
+                <MatExpansionPanel>
+                    <MatExpansionPanelSummary>
+                        <MatExpansionPanelHeader> <i class="material-icons">search</i></MatExpansionPanelHeader>
+                    </MatExpansionPanelSummary>
+                    <MatExpansionPanelDetails>
+                        <form>
+                            <MatTextField @bind-Value="Author" Label="Author"></MatTextField>
+                        </form>
+                    </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+            </MatAccordion>
+            <div class="seriesList">
+
+
+                @foreach (var bookSeries in Series)
+                {
+                    <BookSeries Series="bookSeries"></BookSeries>
+                }
+            </div>
+        </div>
+    }
+
+</div>

@@ -1,0 +1,76 @@
+﻿<div class="bookSeries @(ShowBooks ? "selected" :"")">
+    <div class="header" @onclick="ShowBooksClick">
+        <div>
+            @if (Series.ImageId.HasValue)
+            {
+                <div style="background-image:url('api/Audiobooks/cover/@Series.ImageId')">
+                </div>
+            }
+            else
+            {
+                <div></div>
+            }
+            <div>
+                @Series.Books.Count
+            </div>
+        </div>
+        <div>
+            <div>
+                @Series.Name
+            </div>
+            <div>
+                @Series.Author
+            </div>
+
+        </div>
+    </div>
+    <div>
+        @if (ShowBooks)
+        {
+            foreach (var book in Series.Books)
+            {
+                <div class="book">
+                    @if (book.ImageId.HasValue)
+                    {
+                        <img src="api/Audiobooks/cover/@book.ImageId" />
+                    }
+                    @if (book.Parts.Count == 1)
+                    {
+                        <div>
+                            <a href="api/Audiobooks/download/@book.Parts[0].Id">
+                                <i class="material-icons">cloud_download</i>
+                                @if (book.Disc > 0)
+                                {
+                                    <span>@book.Disc - </span>
+                                }
+                                @book.Title
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <div class="title">
+                                @if (book.Disc > 0)
+                                {
+                                    <span>@book.Disc - </span>
+                                }
+                                @book.Title
+                            </div>
+                            <div class="text">
+                                @foreach (var part in book.Parts)
+                                {
+                                    <a class="link" href="api/Audiobooks/download/@part.Id">
+                                        <i class="material-icons">cloud_download</i>
+                                        <span>Part @part.Track</span>
+                                    </a>
+
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>

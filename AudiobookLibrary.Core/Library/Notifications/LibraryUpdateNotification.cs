@@ -1,24 +1,17 @@
-﻿using MediatR;
+﻿using AudiobookLibrary.Shared.Models;
+using MediatR;
 
 namespace AudiobookLibrary.Core.Library.Notifications
 {
-    public class LibraryUpdateNotification : INotification
+    public class LibraryUpdateNotification : LibraryUpdate,  INotification
     {
-        public int Count { get; }
-        public int FilesComplete { get; }
-        public double Percent { get; }
-        public bool Complete { get; }
 
-        public LibraryUpdateNotification(int count, int filesComplete)
+        public LibraryUpdateNotification(int count, int filesComplete): base(count, filesComplete, ((double)filesComplete / count) * 100)
         {
-            Count = count;
-            FilesComplete = filesComplete;
-            Percent = ((double)filesComplete / count) * 100;
         }
 
-        public LibraryUpdateNotification(bool complete)
+        public LibraryUpdateNotification(bool complete) :base(complete)
         {
-            Complete = complete;
         }
     }
 }

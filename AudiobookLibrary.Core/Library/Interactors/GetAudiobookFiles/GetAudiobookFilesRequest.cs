@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AudiobookLibrary.Core.Library.Models;
+using AudiobookLibrary.Shared.Models;
 using MediatR;
 
 namespace AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles

@@ -7,7 +7,7 @@ using AudiobookLibrary.Core.Confguration;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookById;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles;
 using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
-using AudiobookLibrary.Core.Library.Models;
+using AudiobookLibrary.Shared.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
