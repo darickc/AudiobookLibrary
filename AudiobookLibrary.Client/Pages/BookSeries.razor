@@ -24,7 +24,7 @@
 
         </div>
     </div>
-    <div>
+    <div class="series">
         @if (ShowBooks)
         {
             foreach (var book in Series.Books)
@@ -37,7 +37,7 @@
                     @if (book.Parts.Count == 1)
                     {
                         <div>
-                            <a href="api/Audiobooks/download/@book.Parts[0].Id">
+                            <a href="api/Audiobooks/download/@book.Parts[0].Id" target="_blank">
                                 <i class="material-icons">cloud_download</i>
                                 @if (book.Disc > 0)
                                 {
@@ -60,7 +60,7 @@
                             <div class="text">
                                 @foreach (var part in book.Parts)
                                 {
-                                    <a class="link" href="api/Audiobooks/download/@part.Id">
+                                    <a class="link" href="api/Audiobooks/download/@part.Id" target="_blank">
                                         <i class="material-icons">cloud_download</i>
                                         <span>Part @part.Track</span>
                                     </a>

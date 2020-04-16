@@ -46,9 +46,55 @@
     }
 }
 
+.series {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+    grid-row-gap: 25px;
+}
+
+.book {
+    img {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 5px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .link {
+        display: flex;
+        align-items: center;
+        grid-template-columns: auto auto;
+        margin-right: 10px;
+
+        > .material-icons {
+            flex: 0 auto;
+            align-self: center;
+            margin-right: 7px;
+        }
+
+        > span {
+            flex: 1 auto;
+        }
+    }
+
+    .text {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
 @media (min-width: 768px) {
     .bookSeries.selected {
         grid-column: 1 / span 2;
+    }
+    .series {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -62,4 +108,8 @@
     .bookSeries.selected {
         grid-column: 1 / span 3;
     }
+    .series {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
+
