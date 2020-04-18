@@ -41,10 +41,12 @@
                         </MatExpansionPanelSummary>
                         <MatExpansionPanelDetails>
                             <EditForm Model="@this" OnValidSubmit="Filter">
-                                <MatTextField @bind-Value="@Author" Label="Author" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Author"))"></MatTextField>
-                                <MatTextField @bind-Value="@SeriesName" Label="Series" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("SeriesName"))"></MatTextField>
-                                <MatTextField @bind-Value="@Title" Label="Title" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Title"))"></MatTextField>
-                                <MatButton Raised="true">Search</MatButton>
+                                <div class="searchForm">
+                                    <MatTextField @bind-Value="@Author" Label="Author" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Author"))" FullWidth="true"></MatTextField>
+                                    <MatTextField @bind-Value="@SeriesName" Label="Series" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("SeriesName"))" FullWidth="true"></MatTextField>
+                                    <MatTextField @bind-Value="@Title" Label="Title" Icon="close" IconTrailing="true" IconOnClick="@(e=>ClearField("Title"))" FullWidth="true"></MatTextField>
+                                    <MatButton Raised="true">Search</MatButton>
+                                </div>
                             </EditForm>
                         </MatExpansionPanelDetails>
                     </MatExpansionPanel>

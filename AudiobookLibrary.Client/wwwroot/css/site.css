@@ -88,15 +88,24 @@ body {
 
 .search {
   margin: 10px auto 0 auto;
-  max-width: 950px; }
+  max-width: 1000px; }
+
+.searchForm {
+  display: grid; }
 
 @media (min-width: 768px) {
   .seriesList {
-    grid-template-columns: repeat(2, 1fr); } }
+    grid-template-columns: repeat(2, 1fr); }
+  .searchForm {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 6px;
+    align-items: end; } }
 
 @media (min-width: 1200px) {
   .seriesList {
-    grid-template-columns: repeat(3, 1fr); } }
+    grid-template-columns: repeat(3, 1fr); }
+  .searchForm {
+    grid-template-columns: 1fr 1fr 1fr auto; } }
 
 .lds-ring {
   display: inline-block;
