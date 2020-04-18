@@ -16,7 +16,7 @@ namespace AudiobookLibrary.Client.Services
         public HubService(NavigationManager navigationManager)
         {
             _hub = new HubConnectionBuilder()
-                .WithUrl(navigationManager.ToAbsoluteUri("/library"))
+                .WithUrl(navigationManager.ToAbsoluteUri("library"))
                 .Build();
 
             _hub.On<LibraryUpdate>("LibraryUpdated", e =>LibraryUpdated?.Invoke(e));
