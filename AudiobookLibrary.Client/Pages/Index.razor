@@ -5,7 +5,7 @@
     @if (Loading)
     {
         <div class="loading">
-            Loading books...
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
     }
     else
@@ -33,8 +33,6 @@
                     }
                 </div>
             }
-            @UpdateNotification.FilesComplete
-            @Hub.IsConnected
             <div class="search">
                 <MatAccordion>
                     <MatExpansionPanel>

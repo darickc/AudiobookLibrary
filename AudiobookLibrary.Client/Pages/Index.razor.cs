@@ -27,20 +27,31 @@ namespace AudiobookLibrary.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             UpdateNotification = new LibraryUpdate(true);
-
             Hub.LibraryUpdated = LibraryUpdated;
             Loading = true;
             await Hub.Connect();
+            await GetBooks();
+        }
+
+        private async Task GetBooks()
+        {
+            Loading = true;
+            StateHasChanged();
             Series = await Hub.GetBooks();
             Filter();
             Loading = false;
             StateHasChanged();
         }
+        
 
-        private void LibraryUpdated(LibraryUpdate update)
+        private async void LibraryUpdated(LibraryUpdate update)
         {
             UpdateNotification = update;
             StateHasChanged();
+            if (update.Complete)
+            {
+                await GetBooks();
+            }
         }
         
         public async void RefreshLibrary()

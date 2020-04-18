@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles;
 using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
-using AudiobookLibrary.Core.Library.Notifications;
 using AudiobookLibrary.Shared.Models;
 using AudiobookLibrary.Web.BackgroundTasks;
 using MediatR;
@@ -33,19 +32,16 @@ namespace AudiobookLibrary.Web.Hubs
             return files;
         }
 
-        public async Task RefreshLibrary()
+        public Task RefreshLibrary()
         {
-            _logger.LogInformation("Refresh Library");
-            await Clients.All.LibraryUpdated(new LibraryUpdate(10,5));
-            _logger.LogInformation("Refresh Library2");
-            //            _backgroundTaskQueue.QueueBackgroundWorkItem(async token =>
-            //            {
-            //                // create new scope, otherwise it uses the scope used for this request and the database is closed before it can be processed
-            //                using var scope = _scopeFactory.CreateScope();
-            //                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-            //                await mediator.Send(new RefreshLibraryRequest(), token);
-            //            });
-            //            return Task.CompletedTask;
+            _backgroundTaskQueue.QueueBackgroundWorkItem(async token =>
+            {
+                // create new scope, otherwise it uses the scope used for this request and the database is closed before it can be processed
+                using var scope = _scopeFactory.CreateScope();
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                await mediator.Send(new RefreshLibraryRequest(), token);
+            });
+            return Task.CompletedTask;
         }
     }
 }

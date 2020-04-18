@@ -1,4 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-
+<MatThemeProvider Theme="@theme">
 @Body
+</MatThemeProvider>
+
+@code
+{
+    MatTheme theme = new MatTheme()
+    {
+        Primary = MatThemeColors.Orange._500.Value,
+        Secondary = MatThemeColors.BlueGrey._500.Value
+    };
+}

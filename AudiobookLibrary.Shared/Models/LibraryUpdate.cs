@@ -7,6 +7,11 @@
         public double Percent { get; set; }
         public bool Complete { get; set; }
 
+        public LibraryUpdate()
+        {
+            
+        }
+
         public LibraryUpdate(int count, int filesComplete)
         {
             Count = count;
