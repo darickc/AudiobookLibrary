@@ -68,7 +68,9 @@ namespace AudiobookLibrary.Web
                 endpoints.MapControllers();
                 endpoints.MapHub<LibraryHub>("/library");
                 endpoints.MapRazorPages();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToPage("/Home");
+//                endpoints.MapFallbackToFile("index.html");
+
             });
         }
     }

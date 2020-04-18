@@ -1,7 +1,7 @@
 ﻿using AudiobookLibrary.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
-namespace AudiobookLibrary.Client.Pages
+namespace AudiobookLibrary.Client.Shared
 {
     public partial class BookSeries
     {
