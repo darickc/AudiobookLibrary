@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudiobookLibrary.Client", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudiobookLibrary.Shared", "AudiobookLibrary.Shared\AudiobookLibrary.Shared.csproj", "{6DBD55BA-A050-4F66-9D7D-C34F66EC5C75}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudiobookLibrary.Web", "AudiobookLibrary.Web\AudiobookLibrary.Web.csproj", "{E38FFC3F-A254-436D-9E62-39F1E00402E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6DBD55BA-A050-4F66-9D7D-C34F66EC5C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DBD55BA-A050-4F66-9D7D-C34F66EC5C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DBD55BA-A050-4F66-9D7D-C34F66EC5C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E38FFC3F-A254-436D-9E62-39F1E00402E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E38FFC3F-A254-436D-9E62-39F1E00402E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E38FFC3F-A254-436D-9E62-39F1E00402E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E38FFC3F-A254-436D-9E62-39F1E00402E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
