@@ -1,5 +1,5 @@
 using System.IO;
-using AudiobookLibrary.Core.Confguration;
+using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Web.BackgroundTasks;
 using AudiobookLibrary.Web.Hubs;
 using MediatR;

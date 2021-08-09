@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AudiobookLibrary.Core.Confguration;
+using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Core.Library.Domain;
 using AudiobookLibrary.Core.Library.Factory;
 using AudiobookLibrary.Core.Library.Notifications;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using AudiobookLibrary.Core.Confguration;
+using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookById;
 using AudiobookLibrary.Core.Library.Interactors.GetAudiobookFiles;
 using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;

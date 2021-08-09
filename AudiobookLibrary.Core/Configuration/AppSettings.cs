@@ -1,4 +1,4 @@
-﻿namespace AudiobookLibrary.Core.Confguration
+﻿namespace AudiobookLibrary.Core.Configuration
 {
     public class AppSettings
     {

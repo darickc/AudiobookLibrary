@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using AudiobookLibrary.Core.Confguration;
+using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Core.Library.Domain;
 using TagLib;
 using SixLabors.ImageSharp;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using AudiobookLibrary.Core.Confguration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
