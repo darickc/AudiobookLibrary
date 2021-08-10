@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using AudiobookLibrary.Core.Library.Interactors.RefreshLibrary;
+using AudiobookLibrary.Core.Library.Interactors;
 using MediatR;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;

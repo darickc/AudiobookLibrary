@@ -1,17 +1,15 @@
 ﻿using AudiobookLibrary.Core.Library.Factory;
 using AudiobookLibrary.Core.Persistance;
-using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 
 namespace AudiobookLibrary.Core.Configuration
 {
-    public class ConfigurationFacade
+    public static class ConfigurationFacade
     {
-        public static AppSettings Configure(IServiceCollection services, IConfiguration config, IFileProvider contentRoot)
+        public static AppSettings ConfigureCore(this IServiceCollection services, IConfiguration config)
         {
             var applicationCoreAssemply = typeof(AppSettings).Assembly;
             services.AddAutoMapper(applicationCoreAssemply);

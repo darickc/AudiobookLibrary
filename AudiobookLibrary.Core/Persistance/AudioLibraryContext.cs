@@ -1,4 +1,6 @@
-﻿using AudiobookLibrary.Core.Library.Domain;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AudiobookLibrary.Core.Library.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace AudiobookLibrary.Core.Persistance
@@ -11,6 +13,10 @@ namespace AudiobookLibrary.Core.Persistance
         {
         }
 
-        
+        public IOrderedQueryable<AudiobookFile> GetBooks()
+        {
+            return AudiobookFiles.OrderBy(f => f.Author).ThenBy(f => f.Album).ThenBy(f => f.Disc)
+                .ThenBy(f => f.Track);
+        }
     }
 }
