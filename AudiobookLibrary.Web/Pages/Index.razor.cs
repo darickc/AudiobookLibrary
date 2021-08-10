@@ -1,16 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Library.Interactors;
+using AudiobookLibrary.Core.Library.Notifications;
+using AudiobookLibrary.Core.Library.Services;
 using AudiobookLibrary.Shared.Models;
 using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace AudiobookLibrary.Web.Pages
 {
     public partial class Index
     {
         [Inject] public IMediator Mediator { get; set; }
+        [Inject] public ISnackbar Snackbar { get; set; }
+        [Inject] public NotificationService NotificationService { get; set; }
         public bool Loading { get; set; }
         public List<Series> Series { get; set; }
         public List<Series> TempSeries { get; set; }
@@ -24,13 +30,30 @@ namespace AudiobookLibrary.Web.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            NotificationService.LibraryUpdated = LibraryUpdated;
             UpdateNotification = new LibraryUpdate(true);
-            // Hub.LibraryUpdated = LibraryUpdated;
-            Loading = true;
-            await  Mediator.Send(new GetAudiobookFilesRequest())
-                .Tap(series => Series = series);
-            // await Hub.Connect();
-            // await GetBooks();
+            await GetBooks();
         }
+
+        public async Task GetBooks()
+        {
+            Loading = true;
+            await Mediator.Send(new GetAudiobookFilesRequest(Title, Author, SeriesName))
+                .Tap(series => Series = series)
+                .OnFailure(e => Snackbar.Add(e, Severity.Error))
+                .Finally(r => Loading = false);
+            await InvokeAsync(StateHasChanged);
+        }
+
+        private async void LibraryUpdated(LibraryUpdate update)
+        {
+            UpdateNotification = update;
+            await InvokeAsync(StateHasChanged);
+            if (update.Complete)
+            {
+                await GetBooks();
+            }
+        }
+        
     }
 }

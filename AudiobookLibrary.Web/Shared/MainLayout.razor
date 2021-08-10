@@ -5,7 +5,18 @@
 <MudSnackbarProvider />
 
 <MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        Audiobook Library
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" Variant="@DrawerVariant.Temporary">
+        <MudNavMenu>
+            <MudNavLink @onclick="RefreshLibrary">Refresh</MudNavLink>
+        </MudNavMenu>
+</MudDrawer>
     <MudMainContent>
-        @Body
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+            @Body
+        </MudContainer>
     </MudMainContent>
 </MudLayout>

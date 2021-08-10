@@ -16,7 +16,7 @@
         {
             Count = count;
             FilesComplete = filesComplete;
-            Percent = (double) filesComplete / count;
+            Percent = (double) filesComplete / count * 100;
         }
 
         public LibraryUpdate(bool complete)

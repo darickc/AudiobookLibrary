@@ -1,0 +1,61 @@
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body2">@Series.Author</MudText>
+            <MudText Typo="Typo.body1">@Series.Name</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudChip Color="Color.Primary">@Series.Books.Count</MudChip>
+        </CardHeaderActions>
+    </MudCardHeader>
+    @if (!View)
+    {
+        <MudCardMedia Image="@Series.Image" />
+        <MudCardActions>
+            @if (Series.Books.Sum(b => b.Parts.Count) > 1)
+            {
+                <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(() => View = true)">View</MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+            }
+        </MudCardActions>
+    }
+    else
+    {
+        <MudCardContent>
+            <div class="books">
+                @foreach (var book in Series.Books.OrderBy(b=>b.Disc))
+                {
+                    <div>
+                        <div>
+                            <img src="@book.Image"/>
+                        </div>
+                        <div>
+                            @book.Title
+                        </div>
+                        <div>
+                            @foreach (var part in book.Parts.OrderBy(p => p.Track))
+                            {
+                                if (part.Track.HasValue)
+                                {
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Part @part.Track</MudButton>
+                                }
+                                else
+                                {
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+
+                                }
+
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(()=>View = false)">Close</MudButton>
+        </MudCardActions>
+    }
+</MudCard>

@@ -12,7 +12,7 @@ namespace AudiobookLibrary.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddBaseAddressHttpClient();
+            // builder.Services.AddBaseAddressHttpClient();
             builder.Services.AddScoped<HubService>();
 
             await builder.Build().RunAsync();

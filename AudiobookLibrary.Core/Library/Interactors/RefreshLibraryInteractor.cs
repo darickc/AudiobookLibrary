@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Core.Library.Domain;
 using AudiobookLibrary.Core.Library.Factory;
-using AudiobookLibrary.Core.Library.Notifications;
+using AudiobookLibrary.Core.Library.Services;
 using AudiobookLibrary.Core.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,24 +21,27 @@ namespace AudiobookLibrary.Core.Library.Interactors
             private readonly AppSettings _settings;
             private readonly IMediator _mediator;
             private readonly AudiobookFileFactory _audiobookFileFactory;
+            private readonly NotificationService _notificationService;
 
-            public RefreshLibraryInteractor(AudioLibraryContext ctx, AppSettings settings, IMediator mediator, AudiobookFileFactory audiobookFileFactory)
+            public RefreshLibraryInteractor(AudioLibraryContext ctx, AppSettings settings, IMediator mediator, AudiobookFileFactory audiobookFileFactory, NotificationService notificationService)
             {
                 _ctx = ctx;
                 _settings = settings;
                 _mediator = mediator;
                 _audiobookFileFactory = audiobookFileFactory;
+                _notificationService = notificationService;
             }
 
             protected override async Task Handle(RefreshLibraryRequest request, CancellationToken token)
             {
-                _ctx.Database.EnsureCreated();
+                await _ctx.Database.EnsureCreatedAsync(token);
+
                 var directory = new DirectoryInfo(_settings.Directory);
                 var files = GetFilesForDirectory(directory);
                 var items = await _ctx.AudiobookFiles.ToListAsync(token);
 
                 int processed = 0;
-                await _mediator.Publish(new LibraryUpdateNotification(files.Count, processed), token);
+                _notificationService.Notify(files.Count, processed);
 
                 foreach (var file in files)
                 {
@@ -56,13 +59,13 @@ namespace AudiobookLibrary.Core.Library.Interactors
                     }
 
                     processed++;
-                    await _mediator.Publish(new LibraryUpdateNotification(files.Count, processed), token);
+                    _notificationService.Notify(files.Count, processed);
                 }
 
                 items.ForEach(f => _ctx.Remove(f));
 
                 await _ctx.SaveChangesAsync(token);
-                await _mediator.Publish(new LibraryUpdateNotification(true), token);
+                _notificationService.Notify(true);
             }
 
             private List<string> GetFilesForDirectory(DirectoryInfo directory)

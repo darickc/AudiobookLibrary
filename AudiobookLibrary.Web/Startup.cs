@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor;
 using MudBlazor.Services;
 
 namespace AudiobookLibrary.Web
@@ -24,7 +25,10 @@ namespace AudiobookLibrary.Web
             services.ConfigureCore(Configuration);
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddMudServices();
+            services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

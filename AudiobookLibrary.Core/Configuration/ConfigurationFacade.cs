@@ -1,4 +1,5 @@
 ﻿using AudiobookLibrary.Core.Library.Factory;
+using AudiobookLibrary.Core.Library.Services;
 using AudiobookLibrary.Core.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace AudiobookLibrary.Core.Configuration
             AppSettings settings = new AppSettings();
             config.Bind(settings);
             services.AddSingleton(settings);
+            services.AddSingleton<NotificationService>();
             services.AddScoped<AudiobookFileFactory>();
 
             var dataDirectory = string.IsNullOrEmpty(settings.DataDirectory) ? "" : $"{settings.DataDirectory}/";

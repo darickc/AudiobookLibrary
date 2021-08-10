@@ -1,3 +1,54 @@
 @page "/"
 
-Index
+@if (Loading)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <div>
+        @if (!UpdateNotification.Complete)
+        {
+            <div>
+                @if (UpdateNotification.Count == 0)
+                {
+                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+                }
+                else
+                {
+                    <MudProgressLinear Color="Color.Primary" Value="UpdateNotification.Percent" />
+                    <div class="count">@UpdateNotification.FilesComplete out of @UpdateNotification.Count</div>
+                }
+            </div>
+        }
+        <div class="search">
+            <MudContainer MaxWidth="MaxWidth.Small">
+                <EditForm Model="this" OnSubmit="@GetBooks">
+                    <MudCard>
+                        <MudCardContent>
+
+                            <MudForm>
+                                <MudTextField Label="Author" @bind-Value="@Author" Clearable="true" />
+                                <MudTextField Label="Title" @bind-Value="@Title" Clearable="true" />
+                                <MudTextField Label="Series" @bind-Value="@SeriesName" Clearable="true" />
+                            </MudForm>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" ButtonType="ButtonType.Submit">Search</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </EditForm>
+            </MudContainer>
+        </div>
+        <div class="series">
+            <MudGrid>
+                @foreach (var b in Series)
+                {
+                    <MudItem xs="12" sm="6" lg="4" xl="3">
+                        <BookSeries Series="b"></BookSeries>
+                    </MudItem>
+                }
+            </MudGrid>
+        </div>
+    </div>
+}

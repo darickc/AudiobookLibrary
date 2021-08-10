@@ -13,6 +13,17 @@ namespace AudiobookLibrary.Core.Library.Interactors
 {
     public class GetAudiobookFilesRequest : IRequest<Result<List<Series>>>
     {
+        public GetAudiobookFilesRequest(string title, string author, string series)
+        {
+            Title = title;
+            Author = author;
+            Series = series;
+        }
+
+        public string Title { get; }
+        public string Author { get; }
+        public string Series { get; }
+
         public class GetAudiobookFilesInteractor : IRequestHandler<GetAudiobookFilesRequest, Result<List<Series>>>
         {
             private readonly AudioLibraryContext _ctx;
@@ -24,8 +35,8 @@ namespace AudiobookLibrary.Core.Library.Interactors
 
             public async Task<Result<List<Series>>> Handle(GetAudiobookFilesRequest request, CancellationToken token)
             {
-                return await Result.SuccessIf(await _ctx.Database.EnsureCreatedAsync(token), "Failed to create database")
-                    .Bind(() => Result.Try(()=> _ctx.GetBooks().ToListAsync(token)))
+                await _ctx.Database.EnsureCreatedAsync(token);
+                return await Result.Try(()=> _ctx.GetBooks(request.Title, request.Author, request.Series).ToListAsync(token))
                     .Map(GenerateBooks);
             }
 
@@ -38,10 +49,10 @@ namespace AudiobookLibrary.Core.Library.Interactors
                     {
                         Name = f.Key.Album,
                         Author = f.Key.Author,
-                        ImageId = f.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.AudiobookFileId,
+                        Image = f.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.Image,
                         Books = f.GroupBy(b => b.Disc).OrderBy(b => b.Key).Select(b => new Book
                         {
-                            ImageId = b.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.AudiobookFileId,
+                            Image = b.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.Image,
                             Title = b.First().Title,
                             Disc = b.Key,
                             Parts = b.OrderBy(p => p.Track).Select(p => new Part
