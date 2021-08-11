@@ -6,7 +6,7 @@
 }
 else
 {
-    <div>
+    <div class="content">
         @if (!UpdateNotification.Complete)
         {
             <div>
@@ -23,21 +23,35 @@ else
         }
         <div class="search">
             <MudContainer MaxWidth="MaxWidth.Small">
-                <EditForm Model="this" OnSubmit="@GetBooks">
-                    <MudCard>
-                        <MudCardContent>
 
-                            <MudForm>
-                                <MudTextField Label="Author" @bind-Value="@Author" Clearable="true" />
-                                <MudTextField Label="Title" @bind-Value="@Title" Clearable="true" />
-                                <MudTextField Label="Series" @bind-Value="@SeriesName" Clearable="true" />
-                            </MudForm>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" ButtonType="ButtonType.Submit">Search</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </EditForm>
+                <MudExpansionPanels>
+                    <MudExpansionPanel Text="Search">
+                        <EditForm Model="this" OnSubmit="@GetBooks">
+                            <MudCard Elevation="4">
+                                <MudCardContent>
+
+                                    <MudForm>
+                                        <MudTextField Label="Author" @bind-Value="@Author" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
+                                        <MudTextField Label="Title" @bind-Value="@Title" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
+                                        <MudTextField Label="Series" @bind-Value="@SeriesName" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
+                                    </MudForm>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" ButtonType="ButtonType.Submit">
+                                        <MudIcon Icon="@Icons.Material.Filled.Search" Title="Search" />
+                                    </MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </EditForm>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+                <div class="paging">
+                    @PageIndex of @PageCount
+                    <MudButton @onclick="FirstPage" Disabled="PageIndex <= 1"><MudIcon Icon="@Icons.Material.Filled.FirstPage"></MudIcon></MudButton>
+                    <MudButton @onclick="PrevPage" Disabled="PageIndex <= 1"><MudIcon Icon="@Icons.Material.Filled.ChevronLeft"></MudIcon></MudButton>
+                    <MudButton @onclick="NextPage" Disabled="PageIndex >= PageCount"><MudIcon Icon="@Icons.Material.Filled.ChevronRight"></MudIcon></MudButton>
+                    <MudButton @onclick="LastPage" Disabled="PageIndex >= PageCount"><MudIcon Icon="@Icons.Material.Filled.LastPage"></MudIcon></MudButton>
+                </div>
             </MudContainer>
         </div>
         <div class="series">
@@ -50,5 +64,14 @@ else
                 }
             </MudGrid>
         </div>
+        <MudContainer MaxWidth="MaxWidth.Small">
+            <div class="paging">
+                @PageIndex of @PageCount
+                <MudButton @onclick="FirstPage" Disabled="PageIndex <= 1"><MudIcon Icon="@Icons.Material.Filled.FirstPage"></MudIcon></MudButton>
+                <MudButton @onclick="PrevPage" Disabled="PageIndex <= 1"><MudIcon Icon="@Icons.Material.Filled.ChevronLeft"></MudIcon></MudButton>
+                <MudButton @onclick="NextPage" Disabled="PageIndex >= PageCount"><MudIcon Icon="@Icons.Material.Filled.ChevronRight"></MudIcon></MudButton>
+                <MudButton @onclick="LastPage" Disabled="PageIndex >= PageCount"><MudIcon Icon="@Icons.Material.Filled.LastPage"></MudIcon></MudButton>
+            </div>
+        </MudContainer>
     </div>
 }

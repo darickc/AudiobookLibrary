@@ -1,16 +1,19 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.body2">@Series.Author</MudText>
-            <MudText Typo="Typo.body1">@Series.Name</MudText>
+            <MudText Typo="Typo.h5">@Series.Author</MudText>
+            <MudText Typo="Typo.h6">@Series.Name</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudChip Color="Color.Primary">@Series.Books.Count</MudChip>
+            @if (Series.Books.Sum(b => b.Parts.Count) > 1)
+            {
+                <MudChip Color="Color.Primary">@Series.Books.Count</MudChip>
+            }
         </CardHeaderActions>
     </MudCardHeader>
     @if (!View)
     {
-        <MudCardMedia Image="@Series.Image" />
+        <MudCardMedia Image="@Series.Image" Height="393" />
         <MudCardActions>
             @if (Series.Books.Sum(b => b.Parts.Count) > 1)
             {
@@ -33,22 +36,29 @@
                             <img src="@book.Image"/>
                         </div>
                         <div>
-                            @book.Title
-                        </div>
-                        <div>
-                            @foreach (var part in book.Parts.OrderBy(p => p.Track))
-                            {
-                                if (part.Track.HasValue)
+                            <MudText Typo="Typo.h6">
+                                @if (book.Disc > 0)
                                 {
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Part @part.Track</MudButton>
+                                    <Text>@book.Disc. </Text>
                                 }
-                                else
+                                @book.Title
+                            </MudText>
+                            
+                            <div>
+                                @foreach (var part in book.Parts.OrderBy(p => p.Track))
                                 {
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+                                    if (book.Parts.Count > 1)
+                                    {
+                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Part @part.Track</MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+
+                                    }
 
                                 }
-
-                            }
+                            </div>
                         </div>
                     </div>
                 }

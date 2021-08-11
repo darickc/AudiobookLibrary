@@ -1,1 +1,1 @@
-.books img{width:100%}.books>div{display:grid;grid-template-columns:75px 1fr;grid-gap:5px}.books>div>div:last-child{grid-column:span 2}
+.books{display:grid;grid-template-columns:1fr 1fr;grid-gap:8px}.books img{width:100%}.books>div{display:grid;grid-template-rows:1fr auto;grid-gap:5px}

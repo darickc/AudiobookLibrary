@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,20 +12,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AudiobookLibrary.Core.Library.Interactors
 {
-    public class GetAudiobookFilesRequest : IRequest<Result<List<Series>>>
+    public class GetAudiobookFilesRequest : IRequest<Result<PagedSeries>>
     {
-        public GetAudiobookFilesRequest(string title, string author, string series)
+        public GetAudiobookFilesRequest(string title, string author, string series, int page =1, int count = 20)
         {
             Title = title;
             Author = author;
             Series = series;
+            Count = count;
+            Page = page;
         }
 
         public string Title { get; }
         public string Author { get; }
         public string Series { get; }
+        public int Page { get; }
+        public int Count { get; }
 
-        public class GetAudiobookFilesInteractor : IRequestHandler<GetAudiobookFilesRequest, Result<List<Series>>>
+        public class GetAudiobookFilesInteractor : IRequestHandler<GetAudiobookFilesRequest, Result<PagedSeries>>
         {
             private readonly AudioLibraryContext _ctx;
 
@@ -33,23 +38,23 @@ namespace AudiobookLibrary.Core.Library.Interactors
                 _ctx = ctx;
             }
 
-            public async Task<Result<List<Series>>> Handle(GetAudiobookFilesRequest request, CancellationToken token)
+            public async Task<Result<PagedSeries>> Handle(GetAudiobookFilesRequest request, CancellationToken token)
             {
                 await _ctx.Database.EnsureCreatedAsync(token);
-                return await Result.Try(()=> _ctx.GetBooks(request.Title, request.Author, request.Series).ToListAsync(token))
-                    .Map(GenerateBooks);
+                return await Result.Try(()=> _ctx.GetBooks(request.Title, request.Author, request.Series, request.Page, request.Count))
+                    .Map(r => GenerateBooks(r.Files, r.Count, request.Count, r.page));
             }
 
-            private List<Series> GenerateBooks(List<AudiobookFile> files)
+            private PagedSeries GenerateBooks(List<AudiobookFile> files, int totalCount, int itemsPerPage, int page)
             {
-                return files.GroupBy(f => new { f.Author, f.Album })
+                var series = files.GroupBy(f => new { f.Author, f.Album })
                     .OrderBy(f => f.Key.Author)
                     .ThenBy(f => f.Key.Album)
                     .Select(f => new Series
                     {
                         Name = f.Key.Album,
                         Author = f.Key.Author,
-                        Image = f.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.Image,
+                        // Image = f.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.Image,
                         Books = f.GroupBy(b => b.Disc).OrderBy(b => b.Key).Select(b => new Book
                         {
                             Image = b.FirstOrDefault(s => !string.IsNullOrEmpty(s.Image))?.Image,
@@ -64,6 +69,13 @@ namespace AudiobookLibrary.Core.Library.Interactors
                             }).ToList()
                         }).ToList()
                     }).ToList();
+
+                return new PagedSeries
+                {
+                    Series = series,
+                    Page = page,
+                    PageCount = (int) Math.Ceiling((double) totalCount / itemsPerPage)
+                };
             }
         }
     }

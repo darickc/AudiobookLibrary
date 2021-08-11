@@ -25,8 +25,9 @@ namespace AudiobookLibrary.Web.Pages
         public string Author { get; set; }
         public string Title { get; set; }
         public string SeriesName { get; set; }
-        public int PageSize { get; set; } = 25;
-        public int PageIndex { get; set; }
+        public int PageSize { get; set; } = 12;
+        public int PageIndex { get; set; } = 1;
+        public int PageCount { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -37,9 +38,20 @@ namespace AudiobookLibrary.Web.Pages
 
         public async Task GetBooks()
         {
+            await GetBooks(false);
+        }
+
+        public async Task GetBooks(bool paging)
+        {
+            if (!paging)
+            {
+                PageIndex = 1;
+            }
             Loading = true;
-            await Mediator.Send(new GetAudiobookFilesRequest(Title, Author, SeriesName))
-                .Tap(series => Series = series)
+            await Mediator.Send(new GetAudiobookFilesRequest(Title, Author, SeriesName, PageIndex, PageSize))
+                .Tap(r => Series = r.Series)
+                .Tap(r=>PageIndex = r.Page)
+                .Tap(r=> PageCount = r.PageCount)
                 .OnFailure(e => Snackbar.Add(e, Severity.Error))
                 .Finally(r => Loading = false);
             await InvokeAsync(StateHasChanged);
@@ -54,6 +66,30 @@ namespace AudiobookLibrary.Web.Pages
                 await GetBooks();
             }
         }
-        
+
+        public async Task NextPage()
+        {
+            PageIndex++;
+            await GetBooks(true);
+        }
+
+        public async Task PrevPage()
+        {
+            PageIndex--;
+            await GetBooks(true);
+        }
+
+        public async Task FirstPage()
+        {
+            PageIndex = 1;
+            await GetBooks(true);
+        }
+
+        public async Task LastPage()
+        {
+            PageIndex = PageCount;
+            await GetBooks(true);
+        }
+
     }
 }

@@ -9,6 +9,11 @@ namespace AudiobookLibrary.Web.Shared
         public Series Series { get; set; }
 
         public bool View { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            View = false;
+        }
     }
 
 }

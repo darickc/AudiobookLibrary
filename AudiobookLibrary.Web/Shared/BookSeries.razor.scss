@@ -1,13 +1,13 @@
 .books{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-gap: 8px;
     img{
         width:100%;
     }
     >div{
         display:grid;
-        grid-template-columns: 75px 1fr;
+        grid-template-rows:1fr auto;
         grid-gap: 5px;
-        >div:last-child{
-            grid-column: span 2;
-        }
     }
 }
