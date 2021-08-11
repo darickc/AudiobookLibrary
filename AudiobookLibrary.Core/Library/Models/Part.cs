@@ -1,4 +1,4 @@
-﻿namespace AudiobookLibrary.Shared.Models
+﻿namespace AudiobookLibrary.Core.Library.Models
 {
     public class Part
     {

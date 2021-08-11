@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Library.Interactors;
+using AudiobookLibrary.Core.Library.Models;
 using AudiobookLibrary.Core.Library.Notifications;
 using AudiobookLibrary.Core.Library.Services;
-using AudiobookLibrary.Shared.Models;
 using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Components;

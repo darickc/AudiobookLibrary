@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Library.Domain;
+using AudiobookLibrary.Core.Library.Models;
 using AudiobookLibrary.Core.Persistance;
-using AudiobookLibrary.Shared.Models;
 using CSharpFunctionalExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace AudiobookLibrary.Core.Library.Interactors
 {

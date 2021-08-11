@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AudiobookLibrary.Shared\AudiobookLibrary.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Library\Services\" />
   </ItemGroup>
 </Project>

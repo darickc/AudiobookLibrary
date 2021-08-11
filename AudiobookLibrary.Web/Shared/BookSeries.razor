@@ -21,7 +21,7 @@
             }
             else
             {
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"Download/{Series.Books.First().Parts.First().Id}")">Download</MudButton>
             }
         </MudCardActions>
     }
@@ -49,11 +49,11 @@
                                 {
                                     if (book.Parts.Count > 1)
                                     {
-                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Part @part.Track</MudButton>
+                                        <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"Download/{part.Id}")">Part @part.Track</MudButton>
                                     }
                                     else
                                     {
-                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Download</MudButton>
+                                        <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"Download/{part.Id}")">Download</MudButton>
 
                                     }
 

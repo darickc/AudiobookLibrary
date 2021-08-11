@@ -232,3 +232,4 @@ _Pvt_Extensions
 
 # sqllite database
 *.db
+**/*.css

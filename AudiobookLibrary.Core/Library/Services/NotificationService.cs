@@ -1,5 +1,5 @@
 ﻿using System;
-using AudiobookLibrary.Shared.Models;
+using AudiobookLibrary.Core.Library.Models;
 
 namespace AudiobookLibrary.Core.Library.Services
 {

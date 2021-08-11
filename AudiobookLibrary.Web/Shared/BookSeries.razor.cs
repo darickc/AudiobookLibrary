@@ -1,4 +1,4 @@
-﻿using AudiobookLibrary.Shared.Models;
+﻿using AudiobookLibrary.Core.Library.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace AudiobookLibrary.Web.Shared

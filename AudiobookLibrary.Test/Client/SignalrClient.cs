@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AudiobookLibrary.Shared.Models;
+using AudiobookLibrary.Core.Library.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Xunit;
 
