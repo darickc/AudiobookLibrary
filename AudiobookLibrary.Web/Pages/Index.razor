@@ -9,7 +9,8 @@ else
     <div class="content">
         @if (!UpdateNotification.Complete)
         {
-            <div>
+        <div class="update">
+            <MudContainer MaxWidth="MaxWidth.Small">
                 @if (UpdateNotification.Count == 0)
                 {
                     <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
@@ -19,7 +20,8 @@ else
                     <MudProgressLinear Color="Color.Primary" Value="UpdateNotification.Percent" />
                     <div class="count">@UpdateNotification.FilesComplete out of @UpdateNotification.Count</div>
                 }
-            </div>
+            </MudContainer>
+        </div>
         }
         <div class="search">
             <MudContainer MaxWidth="MaxWidth.Small">
@@ -27,21 +29,9 @@ else
                 <MudExpansionPanels>
                     <MudExpansionPanel Text="Search">
                         <EditForm Model="this" OnSubmit="@GetBooks">
-                            <MudCard Elevation="4">
-                                <MudCardContent>
-
-                                    <MudForm>
                                         <MudTextField Label="Author" @bind-Value="@Author" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
                                         <MudTextField Label="Title" @bind-Value="@Title" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
                                         <MudTextField Label="Series" @bind-Value="@SeriesName" Clearable="true" DebounceInterval="500" OnDebounceIntervalElapsed="GetBooks" />
-                                    </MudForm>
-                                </MudCardContent>
-                                <MudCardActions>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" ButtonType="ButtonType.Submit">
-                                        <MudIcon Icon="@Icons.Material.Filled.Search" Title="Search" />
-                                    </MudButton>
-                                </MudCardActions>
-                            </MudCard>
                         </EditForm>
                     </MudExpansionPanel>
                 </MudExpansionPanels>
