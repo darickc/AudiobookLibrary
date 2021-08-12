@@ -1,20 +1,21 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.201 AS build
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-COPY AudiobookLibrary.Web/*.csproj ./AudiobookLibrary.Web/
-COPY AudiobookLibrary.Core/*.csproj ./AudiobookLibrary.Core/
-COPY AudiobookLibrary.Shared/*.csproj ./AudiobookLibrary.Shared/
-COPY AudiobookLibrary.Client/*.csproj ./AudiobookLibrary.Client/
-RUN dotnet restore ./AudiobookLibrary.Web/AudiobookLibrary.Web.csproj
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+COPY ["AudiobookLibrary.Web/AudiobookLibrary.Web.csproj", "AudiobookLibrary.Web/"]
+COPY ["AudiobookLibrary.Core/AudiobookLibrary.Core.csproj", "AudiobookLibrary.Core/"]
+RUN dotnet restore "AudiobookLibrary.Web/AudiobookLibrary.Web.csproj"
+COPY . .
+WORKDIR "/src/AudiobookLibrary.Web"
+RUN dotnet build "AudiobookLibrary.Web.csproj" -c Release -o /app/build
 
-COPY AudiobookLibrary.Web/. ./AudiobookLibrary.Web/
-COPY AudiobookLibrary.Core/. ./AudiobookLibrary.Core/
-COPY AudiobookLibrary.Shared/. ./AudiobookLibrary.Shared/
-COPY AudiobookLibrary.Client/. ./AudiobookLibrary.Client/
-WORKDIR /app/AudiobookLibrary.Web
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+RUN dotnet publish "AudiobookLibrary.Web.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/AudiobookLibrary.Web/out ./
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AudiobookLibrary.Web.dll"]
