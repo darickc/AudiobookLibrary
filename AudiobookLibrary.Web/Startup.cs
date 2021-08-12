@@ -23,6 +23,7 @@ namespace AudiobookLibrary.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureCore(Configuration);
+            services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddMudServices(config =>
@@ -45,7 +46,7 @@ namespace AudiobookLibrary.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -54,6 +55,7 @@ namespace AudiobookLibrary.Web
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapControllers();
             });
         }
     }

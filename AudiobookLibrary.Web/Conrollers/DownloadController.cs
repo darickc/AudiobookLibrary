@@ -1,26 +1,28 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using AudiobookLibrary.Core.Configuration;
 using AudiobookLibrary.Core.Library.Interactors;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AudiobookLibrary.Web.Pages
+namespace AudiobookLibrary.Web.Conrollers
 {
-    public class DownloadModel : PageModel
+    [Route("[controller]")]
+    [ApiController]
+    public class DownloadController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly AppSettings _settings;
 
-        public DownloadModel(IMediator mediator, AppSettings settings)
+        public DownloadController(IMediator mediator, AppSettings settings)
         {
             _mediator = mediator;
             _settings = settings;
         }
 
-        public async Task<ActionResult> OnGet(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Index(int id)
         {
             var book = await _mediator.Send(new GetAudiobookByIdRequest(id));
             var filename = book?.Filename;
