@@ -34,6 +34,7 @@ namespace AudiobookLibrary.Core.Library.Interactors
 
             protected override async Task Handle(RefreshLibraryRequest request, CancellationToken token)
             {
+                _notificationService.Notify(false);
                 await _ctx.Database.EnsureCreatedAsync(token);
 
                 var directory = new DirectoryInfo(_settings.Directory);
