@@ -1,6 +1,7 @@
 using AudiobookLibrary.Core.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,8 +33,16 @@ namespace AudiobookLibrary.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings settings)
         {
+            if (!string.IsNullOrEmpty(settings.BaseUrl))
+            {
+                app.Use((context, next) =>
+                {
+                    context.Request.PathBase = new PathString(settings.BaseUrl);
+                    return next();
+                });
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
