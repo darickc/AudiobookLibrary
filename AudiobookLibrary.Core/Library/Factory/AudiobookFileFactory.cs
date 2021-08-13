@@ -39,9 +39,8 @@ namespace AudiobookLibrary.Core.Library.Factory
                 };
 
             }
-            catch (Exception e)
+            catch
             {
-                // Console.WriteLine(e);
                 audiobookFile = new AudiobookFile
                 {
                     Title = Path.GetFileName(filename),
