@@ -10,6 +10,7 @@ using AudiobookLibrary.Core.Library.Services;
 using AudiobookLibrary.Core.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AudiobookLibrary.Core.Library.Interactors
 {
@@ -19,21 +20,22 @@ namespace AudiobookLibrary.Core.Library.Interactors
         {
             private readonly AudioLibraryContext _ctx;
             private readonly AppSettings _settings;
-            private readonly IMediator _mediator;
             private readonly AudiobookFileFactory _audiobookFileFactory;
             private readonly NotificationService _notificationService;
+            private readonly ILogger _logger;
 
-            public RefreshLibraryInteractor(AudioLibraryContext ctx, AppSettings settings, IMediator mediator, AudiobookFileFactory audiobookFileFactory, NotificationService notificationService)
+            public RefreshLibraryInteractor(AudioLibraryContext ctx, AppSettings settings, AudiobookFileFactory audiobookFileFactory, NotificationService notificationService, ILogger<RefreshLibraryInteractor> logger)
             {
                 _ctx = ctx;
                 _settings = settings;
-                _mediator = mediator;
                 _audiobookFileFactory = audiobookFileFactory;
                 _notificationService = notificationService;
+                _logger = logger;
             }
 
             protected override async Task Handle(RefreshLibraryRequest request, CancellationToken token)
             {
+                _logger.LogInformation("Starting refresh");
                 _notificationService.Notify(false);
                 await _ctx.Database.EnsureCreatedAsync(token);
 
@@ -67,6 +69,7 @@ namespace AudiobookLibrary.Core.Library.Interactors
 
                 await _ctx.SaveChangesAsync(token);
                 _notificationService.Notify(true);
+                _logger.LogInformation("Ending refresh");
             }
 
             private List<string> GetFilesForDirectory(DirectoryInfo directory)

@@ -19,8 +19,6 @@ namespace AudiobookLibrary.Web.Pages
         [Inject] public NotificationService NotificationService { get; set; }
         public bool Loading { get; set; }
         public List<Series> Series { get; set; }
-        public List<Series> TempSeries { get; set; }
-        public List<Series> FilteredSeries { get; set; }
         public LibraryUpdate UpdateNotification { get; set; }
         public string Author { get; set; }
         public string Title { get; set; }
@@ -59,12 +57,15 @@ namespace AudiobookLibrary.Web.Pages
 
         private async void LibraryUpdated(LibraryUpdate update)
         {
-            UpdateNotification = update;
-            await InvokeAsync(StateHasChanged);
-            if (update.Complete)
+            await InvokeAsync(async () =>
             {
-                await GetBooks();
-            }
+                UpdateNotification = update;
+                StateHasChanged();
+                if (update.Complete)
+                {
+                    await GetBooks();
+                }
+            });
         }
 
         public async Task NextPage()
