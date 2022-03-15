@@ -29,7 +29,7 @@ namespace AudiobookLibrary.Web.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            NotificationService.LibraryUpdated = LibraryUpdated;
+            NotificationService.LibraryUpdated += LibraryUpdated;
             UpdateNotification = new LibraryUpdate(true);
             await GetBooks();
         }

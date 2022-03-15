@@ -37,7 +37,6 @@ namespace AudiobookLibrary.Core.Library.Factory
                     Filename = filename.Replace(_settings.Directory, ""),
                     Image = GetImage(tfile.Tag.Pictures)
                 };
-
             }
             catch
             {

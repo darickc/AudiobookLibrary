@@ -5,7 +5,7 @@ namespace AudiobookLibrary.Core.Library.Services
 {
     public class NotificationService
     {
-        public Action<LibraryUpdate> LibraryUpdated { get; set; }
+        public event Action<LibraryUpdate> LibraryUpdated;
 
         public void Notify(int count, int filesComplete)
         {
