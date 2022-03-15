@@ -46,11 +46,14 @@ else
         </div>
         <div class="series">
             <MudGrid>
-                @foreach (var b in Series)
+                @if (Series != null)
                 {
-                    <MudItem xs="12" sm="6" lg="4" xl="3">
-                        <BookSeries Series="b"></BookSeries>
-                    </MudItem>
+                    foreach (var b in Series)
+                    {
+                        <MudItem xs="12" sm="6" lg="4" xl="3">
+                            <BookSeries Series="b"></BookSeries>
+                        </MudItem>
+                    }
                 }
             </MudGrid>
         </div>

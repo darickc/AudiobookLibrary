@@ -48,16 +48,24 @@ namespace AudiobookLibrary.Core.Library.Interactors
 
                 foreach (var file in files)
                 {
-                    AudiobookFile audiobookFile = _audiobookFileFactory.Create(file);
-
-                    var item = items.FirstOrDefault(f => f.Filename == audiobookFile.Filename);
-                    if (item == null)
+                    var filename = file.Replace(_settings.Directory, "");
+                    var item = items.FirstOrDefault(f => f.Filename == filename);
+                    var f = new FileInfo(file);
+                    if (item == null || f.LastWriteTime > item.DateUpdated)
                     {
-                        _ctx.AudiobookFiles.Add(audiobookFile);
+                        AudiobookFile audiobookFile = _audiobookFileFactory.Create(file);
+                        if (item == null)
+                        {
+                            _ctx.AudiobookFiles.Add(audiobookFile);
+                        }
+                        else
+                        {
+                            item.Update(audiobookFile);
+                            items.Remove(item);
+                        }
                     }
                     else
                     {
-                        item.Update(audiobookFile);
                         items.Remove(item);
                     }
 

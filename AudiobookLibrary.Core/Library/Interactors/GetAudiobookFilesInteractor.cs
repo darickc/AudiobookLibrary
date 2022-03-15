@@ -22,6 +22,11 @@ namespace AudiobookLibrary.Core.Library.Interactors
             Page = page;
         }
 
+        public GetAudiobookFilesRequest()
+        {
+            
+        }
+
         public string Title { get; }
         public string Author { get; }
         public string Series { get; }

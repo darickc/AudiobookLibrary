@@ -9,6 +9,7 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
+using File = System.IO.File;
 
 namespace AudiobookLibrary.Core.Library.Factory
 {
@@ -26,6 +27,7 @@ namespace AudiobookLibrary.Core.Library.Factory
             AudiobookFile audiobookFile;
             try
             {
+                var file = new FileInfo(filename);
                 var tfile = TagLib.File.Create(filename);
                 audiobookFile = new AudiobookFile
                 {
@@ -35,7 +37,8 @@ namespace AudiobookLibrary.Core.Library.Factory
                     Disc = (int)tfile.Tag.Disc,
                     Track = (int)tfile.Tag.Track,
                     Filename = filename.Replace(_settings.Directory, ""),
-                    Image = GetImage(tfile.Tag.Pictures)
+                    Image = GetImage(tfile.Tag.Pictures),
+                    DateUpdated = file.LastWriteTime
                 };
             }
             catch

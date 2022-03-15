@@ -1,4 +1,6 @@
-﻿namespace AudiobookLibrary.Core.Library.Domain
+﻿using System;
+
+namespace AudiobookLibrary.Core.Library.Domain
 {
     public class AudiobookFile
     {
@@ -10,6 +12,7 @@
         public int? Track { get; set; }
         public string Image { get; set; }
         public string Filename { get; set; }
+        public DateTime? DateUpdated { get; set; }
 
         public void Update(AudiobookFile file)
         {
